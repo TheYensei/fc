@@ -12,8 +12,8 @@
 <meta name="apple-mobile-web-app-title" content="Field Card">
 <meta name="theme-color" content="#eef2f5" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#070d12" media="(prefers-color-scheme: dark)">
-<link rel="apple-touch-icon" href="app-icon-180.png">
-<link rel="icon" type="image/png" href="app-icon-64.png">
+<link rel="apple-touch-icon" sizes="180x180" href="app-icon-180.png?v=3">
+<link rel="icon" type="image/png" href="app-icon-64.png?v=3">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -197,6 +197,40 @@ select{background-image:linear-gradient(45deg, transparent 50%, var(--ink-3) 50%
 .math h4{margin:4px 0 0; font-size:.8rem; font-weight:700; color:var(--ink); letter-spacing:.01em}
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .verdict .stats span{background:rgba(0,0,0,.28)} }
 :root[data-theme="dark"] .verdict .stats span{background:rgba(0,0,0,.28)}
+/* picks */
+.pk-status{display:flex; align-items:center; gap:10px}
+.pk-status b{font-size:1.02rem}
+.pk-status .dotl{width:9px; height:9px; border-radius:50%; background:var(--ink-3); flex:none}
+.pk-status .dotl.ok{background:var(--take)} .pk-status .dotl.busy{background:var(--accent); animation:pulse 1.2s ease-in-out infinite} .pk-status .dotl.bad{background:var(--skip)}
+@keyframes pulse{0%,100%{opacity:1} 50%{opacity:.25}}
+.btn[disabled]{opacity:.55; cursor:default}
+.plan-pills{display:flex; flex-direction:column; gap:8px}
+.ppill{background:var(--hero-chip); border-radius:14px; padding:10px 12px; display:grid; grid-template-columns:62px 1fr auto; gap:10px; align-items:center; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px)}
+.ppill b{font-family:var(--display); font-stretch:112%; font-size:1.2rem; font-weight:700; line-height:1}
+.ppill .nm{font-weight:650; font-size:.95rem; line-height:1.2} .ppill .sm{display:block; font-size:.76rem; color:var(--hero-2)}
+.ppill .v{font-family:var(--display); font-weight:700; font-size:1.05rem; font-variant-numeric:tabular-nums}
+.bk{display:flex; flex-direction:column; gap:6px}
+.bk + .bk{border-top:1px solid var(--line); padding-top:10px}
+.bk .for{font-size:.8rem; color:var(--ink-3); font-weight:650}
+.bk .opt{display:grid; grid-template-columns:22px 1fr auto; gap:8px; align-items:baseline; font-size:.9rem}
+.bk .opt i{font-style:normal; font-weight:800; color:var(--ink-3); font-size:.8rem}
+.bk .opt span.v{font-weight:700; font-variant-numeric:tabular-nums}
+.lead{display:grid; grid-template-columns:44px 1fr auto; gap:10px; align-items:center; padding:11px 0}
+.lead .av{width:44px; height:44px; border-radius:12px; display:grid; place-items:center; font-family:var(--display); font-weight:700; font-size:.8rem; line-height:1; text-align:center}
+.lead .av.take{background:var(--take-bg); color:var(--take)} .lead .av.ok{background:var(--ok-bg); color:var(--ok)} .lead .av.skip{background:var(--skip-bg); color:var(--skip)}
+.lead .w{font-size:.95rem; font-weight:650; line-height:1.2} .lead .d{font-size:.78rem; color:var(--ink-3); line-height:1.35}
+.lead .r{text-align:right} .lead .r b{display:block; font-family:var(--display); font-weight:700; font-variant-numeric:tabular-nums} .lead .r span{font-size:.74rem; color:var(--ink-3)}
+.lead .acts{grid-column:2 / -1; display:flex; gap:6px; flex-wrap:wrap}
+.lead .acts button{font:inherit; font-size:.76rem; font-weight:650; border:0; border-radius:999px; padding:6px 11px; background:var(--surface-2); color:var(--ink-2); cursor:pointer}
+.lead .acts button[aria-pressed="true"].mine{background:var(--accent); color:var(--accent-ink)}
+.lead .acts button[aria-pressed="true"].gone{background:var(--ink); color:var(--surface)}
+.lead.isgone{opacity:.45} .lead.isgone .w{text-decoration:line-through}
+.lead .flag{grid-column:2 / -1; font-size:.76rem; color:var(--ok); font-weight:600}
+.lead.inplan .av{box-shadow:inset 0 0 0 2px var(--accent)}
+.note{background:var(--accent-soft); color:var(--ink); border-radius:14px; padding:12px 14px; font-size:.88rem}
+.ovr-row{display:flex; align-items:center; justify-content:space-between; gap:12px; padding-top:10px; border-top:1px solid var(--line)}
+.ovr-row label{font-size:.9rem; color:var(--ink-2)} .ovr-row input{max-width:150px; text-align:right}
+.seg.sm button{min-height:32px; font-size:.8rem}
 /* log */
 .monthnav{display:flex; align-items:center; justify-content:space-between; gap:8px}
 .monthnav button{font:inherit; width:40px; height:40px; border-radius:12px; border:0; background:var(--surface-2); color:var(--ink); cursor:pointer; font-size:1.1rem}
@@ -292,7 +326,7 @@ nav.tabbar button[aria-selected="true"]{color:var(--accent)}
       <svg viewBox="0 0 128 128" role="img" aria-label="Month progress rings" id="rings"></svg>
       <div class="legend" id="ring-legend"></div>
     </div>
-    <div class="moneyline"><div><div class="eyebrow">Est. commission</div><b id="td-comm">$0</b></div><div style="text-align:right"><div class="eyebrow">Plan + overrides</div><span class="muted num" id="td-plan"></span></div></div>
+    <div class="moneyline"><div><div class="eyebrow">Earned so far</div><b id="td-comm">$0</b><div class="faint" id="td-comm-sub"></div></div><div style="text-align:right"><div class="eyebrow">Plan this month</div><span class="muted num" id="td-plan"></span></div></div>
   </div>
   <div class="card">
     <div class="row"><h3>Checklist</h3><span class="faint" id="td-checkcount"></span></div>
@@ -323,19 +357,46 @@ nav.tabbar button[aria-selected="true"]{color:var(--accent)}
     <div class="toggle"><span>Personal leads a month<small>About +$270 each</small></span><div class="stepper"><button type="button" id="pers-m" aria-label="Fewer personal leads">−</button><output id="pers-o">0</output><button type="button" id="pers-p" aria-label="More personal leads">+</button></div></div>
     <div class="toggle"><span>Overrides a month</span><div class="stepper"><button type="button" id="ovr-m" aria-label="Lower overrides">−</button><output id="ovr-o">$2,000</output><button type="button" id="ovr-p" aria-label="Raise overrides">+</button></div></div>
   </div>
-  <p class="faint">Office-average rates: what an average rep earns in each slot, with rep skill factored out. None of your personal results are in these numbers. About 3¼ hours per appointment including drive, 3 per manager block. Your 2026 appointments were worth $174 a run at office rates and you made $213, so your edge is upside, not part of the plan.</p>
+  <p class="faint" id="wk-foot"></p>
+</section>
+
+<!-- ============ PICKS ============ -->
+<section class="screen" id="s-picks" aria-labelledby="t-picks" hidden>
+  <div class="titlebar"><div><h1>Picks</h1><div class="sub">Every lead on the sheet, ranked for you.</div></div><button type="button" class="iconbtn" data-settings aria-label="Settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>
+  <div class="card" id="pk-run">
+    <div class="row"><div class="pk-status"><i class="dotl" id="pk-dot"></i><div><div class="eyebrow" id="pk-date">Tomorrow</div><b id="pk-status">No leads pulled yet</b></div></div><span class="badge plain" id="pk-count" hidden></span></div>
+    <button type="button" class="btn" id="pk-go">Rank tomorrow's leads</button>
+    <p class="faint" id="pk-help">Claude opens the lead sheet in Salesforce on your computer, pulls every appointment and ranks them here. Takes about 3–6 minutes. It also runs by itself at 9:50 PM the night before your field days.</p>
+  </div>
+  <div class="note" id="pk-note" hidden></div>
+  <div class="hero" id="pk-plan" hidden>
+    <div class="row"><span class="k" id="pk-plan-k">Best day</span><span class="badge hero-b" id="pk-plan-b"></span></div>
+    <h2 id="pk-plan-t">Plan A</h2>
+    <div class="plan-pills" id="pk-plan-p"></div>
+    <p class="line" id="pk-plan-l"></p>
+  </div>
+  <div class="card" id="pk-bk-card" hidden><h3>If one is gone</h3><div id="pk-bk"></div><p class="faint">Mark a lead Gone below and the plan rebuilds around it.</p></div>
+  <div class="card" id="pk-alt-card" hidden><h3>Other strong days</h3><div id="pk-alt"></div></div>
+  <div class="card" id="pk-list-card" hidden>
+    <div class="row"><h3 id="pk-list-h">All leads</h3><div class="seg sm" id="pk-sort"></div></div>
+    <ul class="list" id="pk-list"></ul>
+  </div>
+  <div class="card" id="pk-opts" hidden>
+    <div class="toggle"><span>Evening appointments<small>Include 5 PM and later in the plan</small></span><label class="sw"><input type="checkbox" id="pk-eve" aria-label="Include evening appointments"><i></i></label></div>
+    <div class="toggle"><span>Appointments that day<small id="pk-slots-sub">From your week</small></span><div class="stepper"><button type="button" id="pk-sl-m" aria-label="Fewer appointments">−</button><output id="pk-sl-o">2</output><button type="button" id="pk-sl-p" aria-label="More appointments">+</button></div></div>
+  </div>
 </section>
 
 <!-- ============ CHECK ============ -->
 <section class="screen" id="s-check" aria-labelledby="t-check" hidden>
-  <div class="titlebar"><div><h1>Check</h1><div class="sub">Should I take this appointment?</div></div><button type="button" class="chip" id="c-reset">Reset</button></div>
+  <div class="titlebar"><div><h1>Check</h1><div class="sub">Should I take this appointment?</div></div><div style="display:flex;gap:8px"><button type="button" class="chip" id="c-rules">Rules</button><button type="button" class="chip" id="c-reset">Reset</button></div></div>
   <div class="verdict none" id="verdict" aria-live="polite">
     <div class="top"><div class="ico" id="v-ico"></div><div><div class="word" id="v-word">Pick</div><div class="sub" id="v-sub">Tap a start time and lead source.</div></div></div>
     <div class="stats" id="v-stats" hidden></div>
     <ul id="v-why"></ul>
   </div>
   <div class="card" id="odds-card" hidden>
-    <div class="row"><h3>The odds</h3><span class="faint">Office-average rep · <span id="o-month"></span></span></div>
+    <div class="row"><h3>The odds</h3><span class="faint"><span id="o-who">Office-average rep</span> · <span id="o-month"></span></span></div>
     <div class="odds">
       <div class="odd"><span class="lab">Home + demo</span><b id="o-demo">–</b><div class="pbar"><i id="o-demo-bar"></i></div><span id="o-demo-sub"></span></div>
       <div class="odd"><span class="lab">Sale</span><b id="o-sale">–</b><div class="pbar"><i id="o-sale-bar"></i></div><span id="o-sale-sub"></span></div>
@@ -361,6 +422,8 @@ nav.tabbar button[aria-selected="true"]{color:var(--accent)}
   <div class="card">
     <div class="monthnav"><button type="button" id="m-prev" aria-label="Previous month">‹</button><h3 id="m-title"></h3><button type="button" id="m-next" aria-label="Next month">›</button></div>
     <div class="tiles" id="m-tiles"></div>
+    <div class="ovr-row"><label for="m-ovr">Overrides this month</label><input id="m-ovr" type="number" inputmode="numeric" min="0" step="50" placeholder="Not paid yet"></div>
+    <div class="row"><span class="muted">Total this month</span><b class="num" id="m-total">$0</b></div>
   </div>
   <div class="card" id="m-breakcard" hidden><h3>Your results</h3><div id="m-break"></div></div>
   <div class="card"><h3>Appointments</h3><ul class="list" id="m-list"></ul></div>
@@ -368,7 +431,7 @@ nav.tabbar button[aria-selected="true"]{color:var(--accent)}
 
 <!-- ============ RULES ============ -->
 <section class="screen" id="s-rules" aria-labelledby="t-rules" hidden>
-  <div class="titlebar"><div><h1>Rules</h1><div class="sub">The locked plan, at a glance.</div></div><button type="button" class="iconbtn" data-settings aria-label="Settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>
+  <div class="titlebar"><div><h1>Rules</h1><div class="sub">The plan, at a glance.</div></div><button type="button" class="chip" id="r-done">Done</button></div>
   <div class="card"><div class="eyebrow">Take it if</div><p>Check does the math. <span class="badge take">Take</span> when an appointment is worth $200+ in expected commission, <span class="badge ok">OK</span> at $155–199, <span class="badge skip">Skip</span> under $155. Office-average rep, average month. Your own personal and referral leads always win.</p></div>
   <div class="group" id="rules"></div>
   <div class="foot">Full plan and charts (needs Claude sign-in): <a href="https://claude.ai/artifact/6vfhg3dmHZXKViNgr1MjSv">Money Plan</a></div>
@@ -392,11 +455,13 @@ nav.tabbar button[aria-selected="true"]{color:var(--accent)}
 <div class="sheet" id="set-sheet" role="dialog" aria-modal="true" aria-labelledby="set-title" aria-hidden="true">
   <div class="grab"></div>
   <div class="hd"><h2 id="set-title">Settings</h2><button type="button" class="x" id="set-close">Done</button></div>
+  <div class="field"><span class="eyebrow">Numbers based on</span><div class="seg" id="set-basis"></div><span class="faint" id="set-basis-note"></span></div>
   <div class="field"><label class="eyebrow" for="set-avoid">Avoid-list setters</label><textarea id="set-avoid" placeholder="One name per line"></textarea><span class="faint">Kept only on this phone. Check warns you when one of them booked the appointment.</span></div>
   <div class="field"><label class="eyebrow" for="set-persale">Estimated commission per sale</label><input id="set-persale" type="number" inputmode="numeric" min="0" step="10"><span class="faint">Only used for logged sales you haven't entered an amount for. $950 is your 2026 average after declines and cancels, which is lower than the office's $1,060, so it errs low.</span></div>
   <div class="field"><span class="eyebrow">Backup</span><span class="faint">Your log lives only on this phone. Copy a backup now and then and keep it in Notes.</span>
-    <div class="btnrow"><button type="button" class="btn ghost" id="bk-copy">Copy backup</button><button type="button" class="btn ghost" id="bk-show">Restore…</button></div>
-    <div class="field" id="bk-restore" hidden><textarea id="bk-text" placeholder="Paste a backup here" aria-label="Backup text"></textarea><button type="button" class="btn" id="bk-apply">Restore this backup</button></div>
+    <div class="btnrow"><button type="button" class="btn ghost" id="bk-file">Save file</button><button type="button" class="btn ghost" id="bk-copy">Copy backup</button></div>
+    <div class="btnrow"><button type="button" class="btn ghost" id="bk-show">Restore…</button><button type="button" class="btn ghost" id="bk-rules">Rules</button></div>
+    <div class="field" id="bk-restore" hidden><textarea id="bk-text" placeholder="Paste a backup here" aria-label="Backup text"></textarea><div class="btnrow"><button type="button" class="btn ghost" id="bk-pick">Choose file…</button><button type="button" class="btn" id="bk-apply">Restore this backup</button></div><input type="file" id="bk-input" accept="application/json,.json,.txt" hidden></div>
   </div>
   <button type="button" class="btn danger" id="wipe">Erase all data on this phone</button>
   <p class="faint" style="text-align:center">Field Card · runs offline once opened</p>
@@ -405,10 +470,10 @@ nav.tabbar button[aria-selected="true"]{color:var(--accent)}
 
 <nav class="tabbar" aria-label="Sections"><div class="in" role="tablist">
   <button type="button" role="tab" id="t-today" aria-controls="s-today" aria-selected="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Today</button>
-  <button type="button" role="tab" id="t-week" aria-controls="s-week" aria-selected="false"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18M8 14h2M14 14h2M8 17h2"/></svg>Week</button>
+  <button type="button" role="tab" id="t-picks" aria-controls="s-picks" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M4 7h8M4 12h11M4 17h11"/><path d="M18 2.8l1 2.1 2.3.3-1.7 1.6.4 2.3-2-1.1-2 1.1.4-2.3-1.7-1.6 2.3-.3z"/></svg>Picks</button>
   <button type="button" role="tab" id="t-check" aria-controls="s-check" aria-selected="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.7 2.7L16.5 9.5"/></svg>Check</button>
+  <button type="button" role="tab" id="t-week" aria-controls="s-week" aria-selected="false"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18M8 14h2M14 14h2M8 17h2"/></svg>Week</button>
   <button type="button" role="tab" id="t-log" aria-controls="s-log" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>Log</button>
-  <button type="button" role="tab" id="t-rules" aria-controls="s-rules" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M5 4h11l3 3v13H5z"/><path d="M9 11h6M9 15h6M9 7h3"/></svg>Rules</button>
 </div></nav>
 
 <script>
@@ -422,15 +487,15 @@ const MAB=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','De
 const DAYN=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 const DAB=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 const DORDER=[1,2,3,4,5,6,0];
-const WK=52/12, HRS_APPT=3.25, HRS_MGR=3, PERS_ADD=270; let PER_SALE=950;
+const WK=52/12, HRS_APPT=3.25, PERS_ADD=270; let PER_SALE=950;
 const HOURS=[10,11,13,14,15,18,19];
 const SLOTL={10:'10 AM',11:'11 AM',13:'1 PM',14:'2 PM',15:'3 PM',18:'6 PM',19:'7 PM'};
 const PRESETS={
-  rec:{name:'Recommended', s:{2:[10,13],3:[10,13],4:[10],6:[10,13]}, m:{4:1}},
-  lean:{name:'Lean 3 days', s:{2:[10,13],3:[10,13],6:[10,13]}, m:{}},
-  full:{name:'Full 4 days', s:{2:[10,13],3:[10,13],4:[10,13],6:[10,13]}, m:{}},
-  cur:{name:'My old weeks', s:{2:[11,18],3:[14],4:[10,19],5:[15],6:[10]}, m:{}},
-  clear:{name:'Clear', s:{}, m:{}}};
+  rec:{name:'Recommended', s:{2:[10,13],3:[10,13],4:[10],6:[10,13]}},
+  lean:{name:'Lean 3 days', s:{2:[10,13],3:[10,13],6:[10,13]}},
+  full:{name:'Full 4 days', s:{2:[10,13],3:[10,13],4:[10,13],6:[10,13]}},
+  cur:{name:'My old weeks', s:{2:[11,18],3:[14],4:[10,19],5:[15],6:[10]}},
+  clear:{name:'Clear', s:{}}};
 const SRC=[['personal','My personal / referral'],['callin','THD Call-in/Web'],['thdwt','THD Water Treatment'],['nhoin','NHO-In'],['nhoout','NHO-Out'],['thdother','THD Survey/Camille/Transfer'],['bottle','Bottle Drop'],['lowes',"Lowe's"],['wtref','WT Referral'],['other','Other']];
 const SRCN=Object.fromEntries(SRC);
 const CITIES=["ACWORTH","ALPHARETTA","ATHENS","ATLANTA","AUBURN","AUSTELL","BALL GROUND","BETHLEHEM","BROOKHAVEN","BUFORD","CANTON","CARROLLTON","COLLEGE PARK","COMMERCE","CONLEY","CONYERS","COVINGTON","CUMMING","DACULA","DALLAS","DECATUR","DOUGLASVILLE","DULUTH","DUNWOODY","EAST POINT","ELLENWOOD","FAIRBURN","FAYETTEVILLE","FLOWERY BRANCH","FOREST PARK","GAINESVILLE","GRAYSON","GRIFFIN","HAMPTON","HIRAM","HOSCHTON","JACKSON","JOHNS CREEK","JONESBORO","KENNESAW","LAWRENCEVILLE","LILBURN","LITHIA SPRINGS","LITHONIA","LOCUST GROVE","LOGANVILLE","MABLETON","MACON","MARIETTA","MCDONOUGH","MONROE","MORROW","NEWNAN","NORCROSS","OXFORD","PALMETTO","PEACHTREE CITY","PEACHTREE CORNERS","POWDER SPRINGS","REX","RIVERDALE","ROSWELL","SANDY SPRINGS","SMYRNA","SNELLVILLE","SOUTH FULTON","STOCKBRIDGE","STONE MOUNTAIN","STONECREST","SUGAR HILL","SUWANEE","TEMPLE","TUCKER","UNION CITY","VILLA RICA","WARNER ROBINS","WINDER","WINSTON","WOODSTOCK"];
@@ -439,6 +504,109 @@ const titleCase=t=>String(t).toLowerCase().replace(/\b[a-z]/g,c=>c.toUpperCase()
 let AVOID=[];
 const RES=[['nodemo','No demo'],['demo','Demo'],['sold','Sold']];
 const RESN={nodemo:'Rescheduled / no demo', demo:'Demo, no sale', sold:'Sold'};
+
+// ================= lead engine (also used by the nightly ranking run) =================
+// Field Card lead engine: scores every appointment and builds the best schedule with backups.
+// Shared by the app (Picks tab) and the nightly ranking run. Pure functions, no DOM.
+(function (root) {
+const MODEL = {"demo":{"b0":0.192,"h":{"9":0.072,"10":0.049,"11":0.237,"12":0.195,"13":-0.089,"14":-0.014,"15":-0.024,"16":-0.012,"18":-0.262,"19":-0.041,"20":-0.11},"d":{"0":-0.053,"1":0.038,"2":0.099,"3":0.052,"4":-0.02,"5":-0.065,"6":-0.051},"s":{"bottle":-0.063,"callin":0.19,"lowes":0.025,"nhoin":-0.043,"nhoout":-0.176,"other":0.168,"personal":0.44,"thdother":-0.403,"thdwt":-0.193,"wtref":0.056},"b":{"0":0.322,"1":-0.027,"2":-0.295},"m":{"1":-0.002,"2":0.044,"3":0.051,"4":0.066,"5":0.078,"6":-0.029,"7":-0.037,"8":-0.102,"9":-0.001,"10":-0.058,"11":-0.048,"12":0.037},"a":{"avoid":-0.054},"c":{"ACWORTH":0.029,"ALPHARETTA":-0.12,"ATHENS":-0.087,"ATLANTA":-0.109,"AUBURN":0.05,"AUSTELL":-0.007,"BETHLEHEM":-0.053,"BUFORD":0.02,"CANTON":-0.031,"CARROLLTON":-0.057,"COLLEGE PARK":0.047,"CONLEY":-0.079,"CONYERS":0.067,"COVINGTON":0.156,"CUMMING":0.104,"DACULA":-0.063,"DALLAS":0.168,"DECATUR":-0.082,"DOUGLASVILLE":0.037,"DULUTH":-0.015,"DUNWOODY":-0.089,"EAST POINT":0.041,"ELLENWOOD":0.056,"FAIRBURN":0.04,"FAYETTEVILLE":-0.045,"FLOWERY BRANCH":0.06,"FOREST PARK":-0.04,"GAINESVILLE":-0.045,"GRAYSON":0.083,"GRIFFIN":0.129,"HAMPTON":0.004,"HIRAM":0.026,"HOSCHTON":-0.029,"JACKSON":0.129,"JOHNS CREEK":-0.049,"JONESBORO":-0.141,"KENNESAW":0.006,"LAWRENCEVILLE":-0.1,"LILBURN":-0.061,"LITHIA SPRINGS":-0.039,"LITHONIA":0.024,"LOCUST GROVE":0.007,"LOGANVILLE":0.058,"MABLETON":-0.02,"MACON":-0.013,"MARIETTA":-0.077,"MCDONOUGH":0.074,"MONROE":-0.075,"MORROW":0.004,"NEWNAN":0.113,"NORCROSS":-0.073,"PALMETTO":-0.023,"PEACHTREE CITY":-0.042,"PEACHTREE CORNERS":-0.03,"POWDER SPRINGS":-0.01,"REX":-0.041,"RIVERDALE":0.035,"ROSWELL":0.01,"SANDY SPRINGS":-0.12,"SMYRNA":-0.028,"SNELLVILLE":-0.117,"SOUTH FULTON":0.004,"STOCKBRIDGE":-0.063,"STONE MOUNTAIN":0.124,"STONECREST":-0.023,"SUGAR HILL":-0.01,"SUWANEE":-0.198,"TEMPLE":0.021,"TUCKER":0.016,"UNION CITY":-0.054,"VILLA RICA":-0.037,"WARNER ROBINS":-0.043,"WINDER":0.036,"WOODSTOCK":-0.035}},"sold":{"b0":-0.355,"h":{"9":0.076,"10":0.198,"11":0.019,"12":-0.172,"13":0.133,"14":0.08,"15":-0.075,"16":0.111,"18":-0.16,"19":-0.236,"20":0.027},"d":{"0":-0.063,"1":-0.075,"2":-0.048,"3":0.11,"4":0.007,"5":0.055,"6":0.015},"s":{"bottle":-0.455,"callin":-0.06,"lowes":-0.31,"nhoin":-0.024,"nhoout":-0.002,"other":0.201,"personal":0.802,"thdother":-0.186,"thdwt":-0.264,"wtref":0.299},"b":{"0":0.465,"1":-0.217,"2":-0.248},"m":{"1":-0.171,"2":-0.114,"3":0.092,"4":0.044,"5":0.093,"6":0.064,"7":0.024,"8":0.025,"9":0.085,"10":0.037,"11":-0.019,"12":-0.162},"a":{"avoid":-0.345},"c":{"ACWORTH":-0.058,"ALPHARETTA":-0.073,"ATLANTA":-0.052,"AUBURN":0.045,"AUSTELL":0.031,"BALL GROUND":-0.032,"BROOKHAVEN":-0.025,"BUFORD":0.01,"CANTON":-0.086,"CARROLLTON":0.008,"COLLEGE PARK":0.015,"COMMERCE":-0.003,"CONYERS":0.048,"COVINGTON":0.22,"CUMMING":-0.051,"DACULA":-0.012,"DALLAS":0.072,"DECATUR":-0.092,"DOUGLASVILLE":0.146,"DULUTH":-0.064,"DUNWOODY":-0.032,"EAST POINT":0.001,"ELLENWOOD":0.121,"FAIRBURN":0.086,"FAYETTEVILLE":0.074,"FLOWERY BRANCH":0.04,"FOREST PARK":0.037,"GAINESVILLE":0.032,"GRAYSON":0,"GRIFFIN":-0.072,"HAMPTON":0.22,"HIRAM":0.043,"HOSCHTON":-0.024,"JACKSON":-0.005,"JOHNS CREEK":-0.007,"JONESBORO":0.155,"KENNESAW":-0.109,"LAWRENCEVILLE":-0.021,"LILBURN":-0.088,"LITHIA SPRINGS":0.067,"LITHONIA":0.02,"LOCUST GROVE":0.078,"LOGANVILLE":-0.006,"MABLETON":-0.014,"MACON":-0.068,"MARIETTA":-0.146,"MCDONOUGH":0.019,"MONROE":-0.021,"MORROW":0.025,"NEWNAN":-0.024,"NORCROSS":-0.033,"OXFORD":0,"PALMETTO":-0.008,"PEACHTREE CITY":-0.045,"POWDER SPRINGS":0.002,"REX":-0.006,"RIVERDALE":-0.034,"ROSWELL":-0.049,"SANDY SPRINGS":-0.044,"SMYRNA":-0.08,"SNELLVILLE":0.055,"SOUTH FULTON":-0.016,"STOCKBRIDGE":0.031,"STONE MOUNTAIN":-0.003,"SUGAR HILL":-0.031,"SUWANEE":-0.04,"TEMPLE":-0.001,"TUCKER":-0.109,"UNION CITY":0.073,"VILLA RICA":0.076,"WARNER ROBINS":0.028,"WINDER":0,"WINSTON":-0.019,"WOODSTOCK":-0.111}}};
+const GMEAN = {demo:{h:-0.047,d:0.003,s:-0.134,b:-0.039,m:-0.002,c:-0.018}, sold:{h:-0.028,d:0.007,s:-0.093,b:-0.187,m:0.008,c:0.002}};
+// Aaron's 2026 results vs the office model on the same appointments (249 runs, Jan-Aug 2026):
+// demo 44% vs 48% expected, close 51% vs 34% expected, $949 vs $1,057 commission per sale.
+const PERSONAL = {demo:-0.161, sold:0.690, comm:0.898, label:'Your 2026 results (249 appointments)'};
+const CPS = 1060;
+const HOME = [33.8487, -84.3733]; // Buckhead
+const GEO = {"ACWORTH":[34.066,-84.677],"ALPHARETTA":[34.075,-84.294],"ATHENS":[33.951,-83.357],"ATLANTA":[33.749,-84.388],"AUBURN":[34.014,-83.827],"AUSTELL":[33.813,-84.634],"BALL GROUND":[34.338,-84.377],"BETHLEHEM":[33.932,-83.717],"BOGART":[33.949,-83.535],"BRASELTON":[34.109,-83.762],"BROOKHAVEN":[33.865,-84.337],"BUFORD":[34.121,-84.004],"CANTON":[34.237,-84.491],"CARROLLTON":[33.58,-85.077],"CARTERSVILLE":[34.165,-84.8],"CHAMBLEE":[33.892,-84.299],"CLARKSTON":[33.81,-84.24],"COLBERT":[34.037,-83.214],"COLLEGE PARK":[33.653,-84.449],"COMMERCE":[34.204,-83.457],"CONLEY":[33.645,-84.326],"CONYERS":[33.668,-84.018],"COVINGTON":[33.597,-83.86],"CUMMING":[34.207,-84.14],"DACULA":[33.988,-83.898],"DALLAS":[33.924,-84.841],"DECATUR":[33.775,-84.296],"DORAVILLE":[33.898,-84.283],"DOUGLASVILLE":[33.751,-84.747],"DULUTH":[34.003,-84.145],"DUNWOODY":[33.946,-84.334],"EAST POINT":[33.68,-84.439],"ELLENWOOD":[33.62,-84.29],"FAIRBURN":[33.567,-84.581],"FAYETTEVILLE":[33.449,-84.455],"FLOWERY BRANCH":[34.185,-83.925],"FOREST PARK":[33.622,-84.369],"GAINESVILLE":[34.298,-83.824],"GRAYSON":[33.894,-83.955],"GRIFFIN":[33.247,-84.264],"HAMPTON":[33.387,-84.283],"HIRAM":[33.876,-84.762],"HOMER":[34.334,-83.499],"HOSCHTON":[34.096,-83.761],"JACKSON":[33.294,-83.966],"JEFFERSON":[34.117,-83.572],"JOHNS CREEK":[34.029,-84.199],"JONESBORO":[33.522,-84.354],"KENNESAW":[34.023,-84.616],"LAWRENCEVILLE":[33.956,-83.988],"LILBURN":[33.89,-84.143],"LITHIA SPRINGS":[33.794,-84.66],"LITHONIA":[33.712,-84.105],"LOCUST GROVE":[33.346,-84.109],"LOGANVILLE":[33.839,-83.901],"MABLETON":[33.819,-84.582],"MACON":[32.841,-83.632],"MARIETTA":[33.953,-84.55],"MCDONOUGH":[33.447,-84.147],"MILTON":[34.132,-84.301],"MONROE":[33.795,-83.713],"MORROW":[33.583,-84.339],"NEWNAN":[33.381,-84.8],"NORCROSS":[33.941,-84.214],"OXFORD":[33.619,-83.867],"PALMETTO":[33.518,-84.67],"PEACHTREE CITY":[33.397,-84.596],"PEACHTREE CORNERS":[33.97,-84.221],"POWDER SPRINGS":[33.86,-84.684],"REX":[33.587,-84.272],"RIVERDALE":[33.573,-84.413],"ROSWELL":[34.023,-84.362],"SANDY SPRINGS":[33.924,-84.379],"SENOIA":[33.302,-84.554],"SHARPSBURG":[33.339,-84.648],"SMYRNA":[33.884,-84.514],"SNELLVILLE":[33.857,-84.02],"SOCIAL CIRCLE":[33.656,-83.718],"SOUTH FULTON":[33.59,-84.55],"STATHAM":[33.965,-83.596],"STOCKBRIDGE":[33.544,-84.234],"STONE MOUNTAIN":[33.808,-84.17],"STONECREST":[33.709,-84.135],"SUGAR HILL":[34.106,-84.034],"SUWANEE":[34.051,-84.071],"TEMPLE":[33.737,-85.032],"TUCKER":[33.855,-84.217],"TYRONE":[33.471,-84.597],"UNION CITY":[33.587,-84.542],"VILLA RICA":[33.732,-84.919],"WARNER ROBINS":[32.615,-83.627],"WATKINSVILLE":[33.863,-83.408],"WINDER":[33.993,-83.72],"WINSTON":[33.651,-84.853],"WOODSTOCK":[34.101,-84.519]};
+const sig = z => 1 / (1 + Math.exp(-z));
+const up = s => String(s || '').toUpperCase().replace(/\s*\(.*\)\s*/, '').trim();
+function srcOf(c) {
+  c = String(c || '');
+  if (/Personal/i.test(c)) return 'personal';
+  if (/^WT Referral$/i.test(c)) return 'wtref';
+  if (/Lowe/i.test(c)) return 'lowes';
+  if (/Bottle/i.test(c)) return 'bottle';
+  if (/NHO-Out/i.test(c)) return 'nhoout';
+  if (/NHO-In/i.test(c)) return 'nhoin';
+  if (/THD Call-in/i.test(c)) return 'callin';
+  if (/THD Water Treatment|THD WTL/i.test(c)) return 'thdwt';
+  if (/THD/i.test(c)) return 'thdother';
+  return 'other';
+}
+const hb = h => h <= 9 ? 9 : h >= 20 ? 20 : (h === 16 || h === 17) ? 16 : h;
+const tfac = h => h <= 14 ? 1.07 : h <= 17 ? 1 : 0.89;
+function miles(a, b) { const R = 3958.8, t = Math.PI / 180; const dl = (b[0] - a[0]) * t, dn = (b[1] - a[1]) * t;
+  const x = Math.sin(dl / 2) ** 2 + Math.cos(a[0] * t) * Math.cos(b[0] * t) * Math.sin(dn / 2) ** 2; return 2 * R * Math.asin(Math.sqrt(x)); }
+// Rough off-peak drive minutes from straight-line miles (road factor 1.25, faster on longer trips).
+function driveMin(a, b) { if (!a || !b) return 45; const m = miles(a, b); const v = Math.min(55, 28 + m * 0.9); return Math.round(8 + 1.25 * m * 60 / v); }
+const geoOf = city => GEO[up(city)] || null;
+// Score one appointment. x: {hour, minute, dow, month, src, book ('0'|'1'|'2'), city, avoid}
+function score(x, mode) {
+  const f = {h: String(hb(x.hour)), d: String(x.dow), s: x.src, b: x.book, c: up(x.city), m: x.month ? String(x.month) : ''};
+  const parts = (M, G) => { let z = M.b0; ['h','d','s','b','c','m'].forEach(g => { const t = M[g]; z += (f[g] && t[f[g]] != null) ? t[f[g]] : G[g]; }); if (x.avoid) z += M.a.avoid; return z; };
+  let zd = parts(MODEL.demo, GMEAN.demo), zs = parts(MODEL.sold, GMEAN.sold);
+  let comm = CPS * tfac(x.hour) * (x.src === 'lowes' ? 0.82 : 1);
+  if (mode === 'mine') { zd += PERSONAL.demo; zs += PERSONAL.sold; comm *= PERSONAL.comm; }
+  const d = sig(zd), sd = sig(zs);
+  return {demo: d, closeIfDemo: sd, sale: d * sd, comm, exp: d * sd * comm};
+}
+// rows: [{id, start (ISO), created (ET 'YYYY-MM-DDTHH:MM'), name, camp, city, zip, setter, status, owner}]
+function etParts(iso) { const p = Object.fromEntries(new Intl.DateTimeFormat('en-US', {timeZone:'America/New_York', year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', hourCycle:'h23', weekday:'short'}).formatToParts(new Date(iso)).map(q => [q.type, q.value]));
+  return {date: `${p.year}-${p.month}-${p.day}`, hour: +p.hour, minute: +p.minute, dow: {Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6}[p.weekday], month: +p.month}; }
+const dnum = s => Date.UTC(+s.slice(0,4), +s.slice(5,7) - 1, +s.slice(8,10)) / 864e5;
+function enrich(rows, opts) {
+  const avoid = (opts.avoid || []).map(up);
+  const last = n => String(n || '').trim().split(/\s+/).pop().toUpperCase();
+  const out = rows.map(r => {
+    const t = etParts(r.start); const lead = r.created ? dnum(t.date) - dnum(r.created.slice(0, 10)) : 1;
+    const x = {hour: t.hour, minute: t.minute, dow: t.dow, month: t.month, src: srcOf(r.camp), book: lead <= 0 ? '0' : lead === 1 ? '1' : '2', city: r.city, avoid: avoid.includes(up(r.setter))};
+    const s = score(x, opts.mode); const nm = score(Object.assign({}, x, {month: 0}), 'office');
+    const g = geoOf(r.city);
+    return Object.assign({}, r, x, s, {expNeutral: nm.exp, mins: t.hour * 60 + t.minute, date: t.date, geo: g, fromHome: driveMin(HOME, g),
+      verdict: x.src === 'personal' || nm.exp >= 200 ? 'take' : nm.exp >= 155 ? 'ok' : 'skip'});
+  });
+  // Flag likely same-household pairs (same ZIP, same last name): usually only one of them can be run.
+  out.forEach(a => { a.twins = out.filter(b => b !== a && b.zip && b.zip === a.zip && last(b.name) === last(a.name)).map(b => b.id); });
+  return out;
+}
+// Best schedule: pick up to `slots` appointments that fit in one day, maximizing expected $ minus drive cost.
+// Needs 135 min on site + drive between starts (a full demo plus travel). Evening starts (5 PM+) only if allowed.
+function plan(leads, opts) {
+  const slots = Math.max(1, opts.slots || 2), perMin = opts.perMin == null ? 0.5 : opts.perMin, eve = !!opts.evenings;
+  const must = new Set(opts.must || []);
+  const mustL = leads.filter(l => must.has(l.id) && !l.gone);
+  const pool = mustL.concat(leads.filter(l => !l.gone && !must.has(l.id) && (eve || l.mins < 17 * 60)).sort((a, b) => b.exp - a.exp).slice(0, 40));
+  const results = [];
+  const value = seq => { let v = 0, drive = 0, prev = HOME; seq.forEach(l => { v += l.exp; drive += driveMin(prev, l.geo); prev = l.geo; }); drive += driveMin(prev, HOME); return {v: v - drive * perMin, gross: v, drive}; };
+  const fits = (a, b) => b.mins - a.mins >= 135 + driveMin(a.geo, b.geo);
+  function rec(start, seq) {
+    if (seq.length) { const val = value(seq); results.push(Object.assign({seq: seq.slice()}, val)); }
+    if (seq.length >= slots) return;
+    for (let i = 0; i < pool.length; i++) { const l = pool[i]; if (seq.includes(l)) continue; const last = seq[seq.length - 1];
+      if (last && !(l.mins > last.mins && fits(last, l))) continue; seq.push(l); rec(i + 1, seq); seq.pop(); }
+  }
+  rec(0, []);
+  if (mustL.length) { const keep = results.filter(r => mustL.every(m => r.seq.includes(m))); results.length = 0; keep.forEach(r => results.push(r)); }
+  // Prefer full days (the number of slots planned), then value.
+  results.sort((a, b) => (b.seq.length === slots) - (a.seq.length === slots) || b.v - a.v);
+  const uniq = [], seen = new Set();
+  for (const r of results) { const k = r.seq.map(l => l.id).sort().join('|'); if (seen.has(k)) continue; seen.add(k); uniq.push(r); }
+  const best = uniq[0] || null;
+  // Plans B and C: best schedules that swap out at least one of Plan A's appointments.
+  const alts = []; if (best) for (const r of uniq.slice(1)) { if (r.seq.length !== best.seq.length) continue; if (r.seq.some(l => !best.seq.includes(l)) && !alts.some(a => a.seq.map(l => l.id).join() === r.seq.map(l => l.id).join())) alts.push(r); if (alts.length >= 2) break; }
+  // Backups for each pick: best replacement that still fits the rest of Plan A.
+  const backups = best ? best.seq.filter(l => !must.has(l.id)).map(l => { const i = best.seq.indexOf(l); const others = best.seq.filter((_, j) => j !== i);
+    const cands = pool.filter(c => !best.seq.includes(c)).map(c => { const seq = others.concat([c]).sort((a, b) => a.mins - b.mins); let ok = true; for (let k = 1; k < seq.length; k++) if (!fits(seq[k - 1], seq[k])) ok = false; return ok ? {lead: c, val: value(seq)} : null; }).filter(Boolean).sort((a, b) => b.val.v - a.val.v).slice(0, 3);
+    return {for: l, options: cands}; }) : [];
+  return {best, alts, backups};
+}
+const api = {MODEL, GMEAN, PERSONAL, HOME, GEO, srcOf, score, enrich, plan, driveMin, geoOf, etParts};
+if (typeof module !== 'undefined') module.exports = api; else root.FCE = api;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+// Slot values in the chosen basis: office rates, or office rates scaled by your 2026 edge for that start time.
+const PRATIO={}; HOURS.forEach(h=>{ const x={hour:h, dow:3, month:0, book:'', city:'', avoid:false}; PRATIO[h]=FCE.score(x,'mine').exp/FCE.score(x,'office').exp; });
+const VALB=(h,d)=> VAL[h][d]*(prefs.basis==='mine'? PRATIO[h] : 1);
+const BASISL=()=> prefs.basis==='mine'? 'your 2026 averages' : 'office averages';
 
 // ================= helpers =================
 const $=id=>document.getElementById(id);
@@ -460,43 +628,43 @@ AVOID=lsGet('afc-avoid',[]).filter(x=>typeof x==='string'&&x.trim()).map(x=>x.tr
 PER_SALE=Number(lsGet('afc-persale',950))||950;
 
 // ================= state =================
-function presetWeek(p){ const P=PRESETS[p]; const s={}, m={}; Object.entries(P.s).forEach(([d,hs])=>s[d]=hs.slice()); Object.keys(P.m).forEach(d=>m[d]=1); return {s,m}; }
-function defaults(){ return {week:presetWeek('rec'), preset:'rec', ovr:2000, pers:0, conf:false, set:false, month:0}; }
+function presetWeek(p){ const P=PRESETS[p]; const s={}; Object.entries(P.s).forEach(([d,hs])=>s[d]=hs.slice()); return {s,m:{}}; }
+function defaults(){ return {week:presetWeek('rec'), preset:'rec', ovr:2000, pers:0, conf:false, set:false, month:0, basis:'office', pkEve:false, pkSlots:0}; }
 function normPrefs(p){ const d=defaults(); if(!p||typeof p!=='object') return d; const out=Object.assign(d, {});
   if(p.week && p.week.s){ out.week={s:{}, m:{}}; Object.entries(p.week.s).forEach(([k,v])=>{ if(Array.isArray(v)) out.week.s[k]=v.map(Number).filter(h=>HOURS.includes(h)); }); Object.entries(p.week.m||{}).forEach(([k,v])=>{ if(v) out.week.m[k]=1; }); out.preset=p.preset||null; }
   else if(p.plan && PRESETS[p.plan]){ out.week=presetWeek(p.plan); out.preset=p.plan; }
-  ['ovr','pers','month'].forEach(k=>{ if(typeof p[k]==='number') out[k]=p[k]; }); ['conf','set'].forEach(k=>{ if(typeof p[k]==='boolean') out[k]=p[k]; }); return out; }
+  ['ovr','pers','month','pkSlots'].forEach(k=>{ if(typeof p[k]==='number') out[k]=p[k]; }); ['conf','set','pkEve'].forEach(k=>{ if(typeof p[k]==='boolean') out[k]=p[k]; }); if(p.basis==='mine'||p.basis==='office') out.basis=p.basis; return out; }
 let prefs=normPrefs(lsGet('afc-prefs', null));
 const months={}; let viewMonth=mkey(now);
 let db=null, uid=null, mode='local'; const unsubs={}, chains={}, loaded={};
 function blank(){ return {entries:[], checks:{}}; }
 function monthData(mk){ if(!months[mk]) months[mk]= mode==='local' ? lsGet('afc-log-'+mk, blank()) : blank(); return months[mk]; }
 function refFor(mk){ return db.collection('data/users/'+uid).doc('log-'+mk); }
-function watch(mk){ if(mode!=='cloud'||unsubs[mk]) return; unsubs[mk]=refFor(mk).onSnapshot(snap=>{ loaded[mk]=true; const d=snap.exists?snap.data():null; months[mk]= d? {entries:Array.isArray(d.entries)?d.entries.slice():[], checks:d.checks?JSON.parse(JSON.stringify(d.checks)):{}} : blank(); renderToday(); if(!$('s-log').hidden) renderLog(); }, ()=>setSync('Sync paused', false)); }
+function watch(mk){ if(mode!=='cloud'||unsubs[mk]) return; unsubs[mk]=refFor(mk).onSnapshot(snap=>{ loaded[mk]=true; const d=snap.exists?snap.data():null; months[mk]= d? Object.assign({entries:Array.isArray(d.entries)?d.entries.slice():[], checks:d.checks?JSON.parse(JSON.stringify(d.checks)):{}}, typeof d.ovr==='number'?{ovr:d.ovr}:{}) : blank(); renderToday(); if(!$('s-log').hidden) renderLog(); }, ()=>setSync('Sync paused', false)); }
 function saveMonth(mk){
   if(mode==='local'){ lsSet('afc-log-'+mk, JSON.parse(JSON.stringify(monthData(mk)))); return Promise.resolve(); }
   chains[mk]=(chains[mk]||Promise.resolve()).then(async()=>{
-    if(!loaded[mk]){ const snap=await refFor(mk).get(); loaded[mk]=true; if(snap.exists){ const d=snap.data()||{}; const cur=monthData(mk); const ids=new Set((cur.entries||[]).map(e=>e.id)); cur.entries=[...(Array.isArray(d.entries)?d.entries:[]).filter(e=>!ids.has(e.id)), ...(cur.entries||[])]; const ck=d.checks?JSON.parse(JSON.stringify(d.checks)):{}; Object.entries(cur.checks||{}).forEach(([k,v])=>{ ck[k]=Object.assign(ck[k]||{}, v); }); cur.checks=ck; } }
+    if(!loaded[mk]){ const snap=await refFor(mk).get(); loaded[mk]=true; if(snap.exists){ const d=snap.data()||{}; const cur=monthData(mk); const ids=new Set((cur.entries||[]).map(e=>e.id)); cur.entries=[...(Array.isArray(d.entries)?d.entries:[]).filter(e=>!ids.has(e.id)), ...(cur.entries||[])]; const ck=d.checks?JSON.parse(JSON.stringify(d.checks)):{}; Object.entries(cur.checks||{}).forEach(([k,v])=>{ ck[k]=Object.assign(ck[k]||{}, v); }); cur.checks=ck; if(typeof cur.ovr!=='number' && typeof d.ovr==='number') cur.ovr=d.ovr; } }
     await refFor(mk).set(JSON.parse(JSON.stringify(monthData(mk)))); }).catch(e=>toast(e&&e.code==='quota_exceeded'?'Storage full. Delete old entries.':'Couldn\'t save. Check your connection.'));
   return chains[mk]; }
 let prefT=null;
 function savePrefs(){ lsSet('afc-prefs', prefs); if(mode!=='cloud') return; clearTimeout(prefT); prefT=setTimeout(()=>{ chains.prefs=(chains.prefs||Promise.resolve()).then(()=>db.collection('data/users/'+uid).doc('prefs').set(JSON.parse(JSON.stringify(prefs)))).catch(()=>{}); }, 600); }
-function setSync(t,on){ ['sync1','sync2'].forEach(id=>{ const s=$(id); s.classList.toggle('on',!!on); s.querySelector('span').textContent=t; }); }
+function setSync(t,on){ ['sync1','sync2'].forEach(id=>{ const s=$(id); if(!s) return; s.classList.toggle('on',!!on); s.querySelector('span').textContent=t; }); }
 async function initStore(){
   try{ if(!window.claude||!window.claude.use) return;
     const [d,u]=await Promise.all([window.claude.use('db'), window.claude.use('user')]); if(!d||!u) return;
     const id=await u.id(); if(!id) return; db=d; uid=id; mode='cloud'; Object.keys(months).forEach(k=>delete months[k]); setSync('Synced', true);
     db.collection('data/users/'+uid).doc('prefs').onSnapshot(s=>{ if(s.exists){ prefs=normPrefs(s.data()); lsSet('afc-prefs',prefs); renderToday(); renderWeek(); } }, ()=>{});
-    watch(mkey(now)); if(viewMonth!==mkey(now)) watch(viewMonth); renderToday(); if(!$('s-log').hidden) renderLog();
+    watch(mkey(now)); if(viewMonth!==mkey(now)) watch(viewMonth); renderToday(); if(!$('s-log').hidden) renderLog(); initPicks();
   }catch(e){}
 }
 
 // ================= week math =================
-function weekCalc(p, mi){ let runs=0,sum=0,eve=0,days=0,mgr=0;
-  DORDER.forEach(d=>{ const hs=(p.week.s[d]||[]); const m=!!p.week.m[d]; hs.forEach(h=>{ runs++; sum+=VAL[h][d]; if(h>=18) eve++; }); if(hs.length||m) days++; if(m) mgr++; });
+function weekCalc(p, mi){ let runs=0,sum=0,eve=0,days=0;
+  DORDER.forEach(d=>{ const hs=(p.week.s[d]||[]); hs.forEach(h=>{ runs++; sum+=VALB(h,d); if(h>=18) eve++; }); if(hs.length) days++; });
   const boost=(p.conf?1.05:1)*(p.set?1.02:1)*mi;
   const low=sum*WK*boost + p.pers*PERS_ADD, high=low;
-  return {runs, perWeek:runs, monthRuns:runs*WK, low, high, days, hrs:runs*HRS_APPT+mgr*HRS_MGR, eve: runs? eve/runs : 0, avgLow: runs? sum/runs*boost : 0}; }
+  return {runs, perWeek:runs, monthRuns:runs*WK, low, high, days, hrs:runs*HRS_APPT, eve: runs? eve/runs : 0, avgLow: runs? sum/runs*boost : 0}; }
 
 // ================= TODAY =================
 const RING_R=[54,42,30];
@@ -511,15 +679,14 @@ function renderToday(){
   const dow=now.getDay(), mi=MIDX[now.getMonth()], tier=tierOf(mi);
   $('td-date').textContent=now.toLocaleDateString('en-US',{weekday:'long', month:'long', day:'numeric'});
   $('td-month').textContent=`${MAB[now.getMonth()]} · ${tier==='push'?'Push':tier==='ease'?'Ease off':'Normal'} ${mi>=1?'+':''}${Math.round((mi-1)*100)}%`;
-  const hs=(prefs.week.s[dow]||[]).slice().sort((a,b)=>a-b), mg=!!prefs.week.m[dow];
+  const hs=(prefs.week.s[dow]||[]).slice().sort((a,b)=>a-b);
   $('td-title').textContent=DAYN[dow];
-  $('td-kicker').textContent= hs.length? `Field day · ${hs.length} appointment${hs.length>1?'s':''}` : (mg? 'Manager day' : 'Day off');
+  $('td-kicker').textContent= hs.length? `Field day · ${hs.length} appointment${hs.length>1?'s':''}` : 'Day off';
   const sl=$('td-slots'); sl.innerHTML='';
-  hs.forEach(h=>{ const p=el('div','tpill'); p.appendChild(el('b',null,SLOTL[h])); const v=VAL[h][dow]*mi; p.appendChild(el('span',null,`about ${money(v)} a run`)); sl.appendChild(p); });
-  if(mg){ const p=el('div','tpill'); p.appendChild(el('b',null,'PM')); p.appendChild(el('span',null,'Manager work')); sl.appendChild(p); }
-  if(!hs.length && !mg){ const p=el('div','tpill'); p.appendChild(el('b',null,'Off')); p.appendChild(el('span',null,'Recharge. Nothing booked.')); sl.appendChild(p); }
+  hs.forEach(h=>{ const p=el('div','tpill'); p.appendChild(el('b',null,SLOTL[h])); const v=VALB(h,dow)*mi; p.appendChild(el('span',null,`about ${money(v)} a run`)); sl.appendChild(p); });
+  if(!hs.length){ const p=el('div','tpill'); p.appendChild(el('b',null,'Off')); p.appendChild(el('span',null,'Recharge. Nothing booked.')); sl.appendChild(p); }
   const tm=new Date(now); tm.setDate(now.getDate()+1); const ths=(prefs.week.s[tm.getDay()]||[]).slice().sort((a,b)=>a-b);
-  let nx= ths.length? `Tomorrow: ${ths.map(h=>SLOTL[h]).join(' + ')}. Pick them tonight in Check.` : `Tomorrow (${DAB[tm.getDay()]}) is off.`;
+  const tp=picksPlanLine(dkey(tm)); let nx= tp? `Tomorrow's best: ${tp}. See Picks.` : ths.length? `Tomorrow: ${ths.map(h=>SLOTL[h]).join(' + ')}. Claude ranks the sheet tonight in Picks.` : `Tomorrow (${DAB[tm.getDay()]}) is off.`;
   if(tier==='push') nx+=' Push month: every run pays more.'; if(tier==='ease') nx+=' Ease month: a good time for time off.';
   $('td-next').textContent=nx;
   // month
@@ -531,16 +698,15 @@ function renderToday(){
   ringSVG([s.runs/target, demoRate/0.5, s.sold/saleT]);
   const lg=$('ring-legend'); lg.innerHTML='';
   [['var(--ring-1)', `${s.runs}/${target}`, 'Appointments'], ['var(--ring-2)', s.runs? Math.round(demoRate*100)+'%':'–', 'Demo rate · goal 50%'], ['var(--ring-3)', `${s.sold}/${saleT}`, 'Sales']].forEach(([c,v,l])=>{ const r=el('div','lg'); const i=el('i'); i.style.background=c; r.appendChild(i); r.appendChild(el('span',null,l)); r.appendChild(el('b',null,v)); lg.appendChild(r); });
-  $('td-comm').textContent=money(s.comm);
-  $('td-plan').textContent=`${kfmt(wc.low)} + ${kfmt(prefs.ovr)}`;
+  const mo=monthData(mk).ovr; const ovrPaid=(typeof mo==='number'&&mo>0)?mo:0; $('td-comm').textContent=money(s.comm+ovrPaid); $('td-comm-sub').textContent= ovrPaid? `${money(s.comm)} commission + ${money(ovrPaid)} overrides` : 'Commission. Add overrides in Log.';
+  $('td-plan').textContent=`${kfmt(wc.low+prefs.ovr)}`;
   // checklist
   const items=[];
   if(dow===1) items.push(['m1','Weekly review','30 min: last week\'s appointments, demos, sales']);
   if(hs.length){ items.push(['c1',`Confirm the ${SLOTL[hs[0]]}`,'Around 8:30 AM. Make sure every decision-maker will be home.']);
     if(hs[1]) items.push(['c2',`Confirm the ${SLOTL[hs[1]]}`,'At lunch. Take any same-day daytime booking offered.']);
     items.push(['c3','Log today\'s results','Tap Log after each appointment.']); items.push(['c4','Referral texts','Two minutes: this week\'s installs and happy customers.']); }
-  if(mg) items.push(['g1','Manager / override work','Ride-alongs, coaching, office.']);
-  if(ths.length) items.push(['n1','Pick tomorrow\'s appointments','Tonight, with Check.']);
+  if(ths.length) items.push(['n1','Pick tomorrow\'s appointments','Tonight, in Picks.']);
   const md=monthData(mk); const done=(md.checks&&md.checks[dkey(now)])||{};
   const ul=$('td-checks'); ul.innerHTML='';
   if(!items.length) ul.appendChild(el('li','faint','Nothing on the list today.'));
@@ -561,20 +727,18 @@ function renderWeek(){
   $('wk-total').textContent= kfmt(tl);
   const L=Math.min(100,100*tl/15000); const bar=$('wk-bar'); bar.style.left='0%'; bar.style.width=Math.max(1.5,L)+'%';
   $('wk-runs').textContent=Math.round(wc.monthRuns); $('wk-days').textContent=wc.days; $('wk-hrs').textContent=Math.round(wc.hrs); $('wk-eve').textContent= wc.runs? Math.round(wc.eve*100)+'%' : '–';
-  $('wk-status').textContent= !wc.runs? 'Tap slots below or pick a preset.' : (tl<7000? 'Below your $7k floor at office rates. Add a daytime slot.' : tl<10000? 'Clears your $7k floor at office rates.' : 'Clears $10k at office rates.') + ` About ${money(wc.avgLow)} a run.`;
+  $('wk-status').textContent= !wc.runs? 'Tap slots below or pick a preset.' : (tl<7000? `Below your $7k floor at ${BASISL()}. Add a daytime slot.` : tl<10000? `Clears your $7k floor at ${BASISL()}.` : `Clears $10k at ${BASISL()}.`) + ` About ${money(wc.avgLow)} a run.`;
+  $('wk-foot').textContent= prefs.basis==='mine'? 'Your averages: your 2026 results (249 appointments) applied to each slot. You demo a little less often than the office (44% vs 48%) but close far more (51% vs 34%), about 22% more per appointment. In 2025 you ran about 14% below the office, so treat this as the optimistic view. About 3¼ hours per appointment including drive.' : 'Office averages: what an average rep earns in each slot, with rep skill factored out. None of your personal results are in these numbers. About 3¼ hours per appointment including drive. Switch to your own averages in Settings.';
   // presets
   const pr=$('wk-presets'); pr.innerHTML=''; Object.entries(PRESETS).forEach(([k,p])=>pr.appendChild(btn('chip', p.name, prefs.preset===k, ()=>{ prefs.week=presetWeek(k); prefs.preset=k; savePrefs(); renderWeek(); renderToday(); toast(p.name+' loaded'); })));
   // grid
   const g=$('wk-grid'); g.innerHTML=''; g.appendChild(el('div'));
   DORDER.forEach(d=>g.appendChild(el('div','h'+(d===now.getDay()?' today':''), DAB[d].slice(0,1)+DAB[d].slice(1,3).toLowerCase())));
   HOURS.forEach(h=>{ g.appendChild(el('div','rl',SLOTL[h].replace(' ',' ')));
-    DORDER.forEach(d=>{ const v=VAL[h][d]*mi; const sel=(prefs.week.s[d]||[]).includes(h); const c=btn('cell '+(sel?'sel':valTier(VAL[h][d]*mi)), null, sel, ()=>toggleSlot(d,h));
+    DORDER.forEach(d=>{ const v=VALB(h,d)*mi; const sel=(prefs.week.s[d]||[]).includes(h); const c=btn('cell '+(sel?'sel':valTier(VAL[h][d]*mi)), null, sel, ()=>toggleSlot(d,h));
       c.setAttribute('aria-label', `${DAYN[d]} ${SLOTL[h]}, about ${money(v)} a run${sel?', in your week':''}`); c.appendChild(el('span',null,'$'+Math.round(v))); g.appendChild(c); }); });
-  g.appendChild(el('div','rl','Mgr'));
-  DORDER.forEach(d=>{ const sel=!!prefs.week.m[d]; const c=btn('cell mgr'+(sel?' sel':''), null, sel, ()=>{ if(prefs.week.m[d]) delete prefs.week.m[d]; else prefs.week.m[d]=1; prefs.preset=null; savePrefs(); renderWeek(); renderToday(); });
-    c.setAttribute('aria-label', `${DAYN[d]} manager block${sel?', on':''}`); c.appendChild(el('small',null, sel?'On':'+')); g.appendChild(c); });
   g.appendChild(el('div'));
-  DORDER.forEach(d=>{ const hs=prefs.week.s[d]||[]; let s=0; hs.forEach(h=>s+=VAL[h][d]*mi); g.appendChild(el('div','daytot', hs.length? kfmt(s*WK*(prefs.conf?1.05:1)*(prefs.set?1.02:1)).replace('.0k','k') : '–')); });
+  DORDER.forEach(d=>{ const hs=prefs.week.s[d]||[]; let s=0; hs.forEach(h=>s+=VALB(h,d)*mi); g.appendChild(el('div','daytot', hs.length? kfmt(s*WK*(prefs.conf?1.05:1)*(prefs.set?1.02:1)).replace('.0k','k') : '–')); });
   // months
   const ms=$('wk-months'); ms.innerHTML=''; ms.appendChild(btn('chip','Average',prefs.month===0,()=>{prefs.month=0; savePrefs(); renderWeek();}));
   MIDX.forEach((m,i)=>{ const t=tierOf(m); const b=btn('chip', null, prefs.month===i+1, ()=>{prefs.month=i+1; savePrefs(); renderWeek();}); const dot=el('span','dot'); dot.style.background= t==='push'?'var(--take)': t==='ease'?'var(--ok)':'var(--ink-3)'; b.appendChild(dot); b.appendChild(document.createTextNode(MAB[i])); ms.appendChild(b); });
@@ -601,22 +765,26 @@ const BKK={today:'0', yesterday:'1', older:'2'};
 const sig=z=>1/(1+Math.exp(-z));
 const pct=v=>Math.round(v*100)+'%';
 const normCity=a=>{ if(!a) return ''; const u=String(a).toUpperCase().replace(/\s*\(.*\)\s*/,'').trim(); return CITIES.includes(u)? u : ''; };
-function feats(c, month){ return {h:String(c.time), d:String(c.day), s:c.src, b:BKK[c.book]||'1', c:normCity(c.area), a:!!(c.setter && AVOID.includes(c.setter)), m:month? String(month) : ''}; }
+const hbk=h=> h<=9?9 : h>=20?20 : (h===16||h===17)?16 : h;
+const tlab=h=> SLOTL[h] || `${(h%12)||12}${h<12?' AM':' PM'}`;
+function feats(c, month){ return {t:c.time, h:String(hbk(c.time)), d:String(c.day), s:c.src, b:BKK[c.book]||'1', c:normCity(c.area), a:!!(c.setter && AVOID.includes(c.setter)), m:month? String(month) : ''}; }
 function parts(M, G, f){ const o={base:M.b0}; ['h','d','s','b','c','m'].forEach(g=>{ const t=M[g]; o[g]= (f[g] && t[f[g]]!=null)? t[f[g]] : G[g]; }); o.a= f.a? M.a.avoid : 0; return o; }
 const zsum=o=>Object.values(o).reduce((a,v)=>a+v,0);
-function score(c, month){
+function score(c, month, basis){
+  const mine=(basis||prefs.basis)==='mine';
   const f=feats(c, month); const pd=parts(MODEL.demo, GMEAN.demo, f), ps=parts(MODEL.sold, GMEAN.sold, f);
-  const tf=tfac(c.time), lf=c.src==='lowes'?0.82:1; const d=sig(zsum(pd)), sd=sig(zsum(ps)), comm=CPS*tf*lf;
+  if(mine){ pd.me=FCE.PERSONAL.demo; ps.me=FCE.PERSONAL.sold; }
+  const tf=tfac(c.time), lf=(c.src==='lowes'?0.82:1)*(mine?FCE.PERSONAL.comm:1); const d=sig(zsum(pd)), sd=sig(zsum(ps)), comm=CPS*tf*lf;
   return {f, pd, ps, d, sd, s:d*sd, tf, lf, comm, exp:d*sd*comm};
 }
 // Dollar effect of each factor versus an average appointment (same everything else).
 function impacts(r){ return ['h','d','s','b','c','a','m'].map(g=>{ const pd=Object.assign({},r.pd), ps=Object.assign({},r.ps);
   if(g==='a'){ pd.a=0; ps.a=0; } else { pd[g]=GMEAN.demo[g]; ps[g]=GMEAN.sold[g]; }
   const comm= g==='h'? CPS*r.lf : g==='s'? CPS*r.tf : r.comm; return [g, r.exp - sig(zsum(pd))*sig(zsum(ps))*comm]; }); }
-const FL={h:f=>`${SLOTL[f.h]} start`, d:f=>DAYN[f.d], s:f=>SRCN[f.s], b:f=>({'0':'Booked today','1':'Booked the day before','2':'Booked 2+ days ahead'})[f.b], c:f=>titleCase(f.c), a:()=>'Avoid-list setter', m:f=>MNAME[f.m-1]+' season'};
+const FL={h:f=>`${tlab(f.t)} start`, d:f=>DAYN[f.d], s:f=>SRCN[f.s], b:f=>({'0':'Booked today','1':'Booked the day before','2':'Booked 2+ days ahead'})[f.b], c:f=>titleCase(f.c), a:()=>'Avoid-list setter', m:f=>MNAME[f.m-1]+' season'};
 function verdict(c){
   if(c.time==null||!c.src) return {cls:'none', word:'Pick', sub:'Tap a start time and lead source.', why:[], r:null};
-  const r=score(c, now.getMonth()+1), rn=score(c, 0);
+  const r=score(c, now.getMonth()+1), rn=score(c, 0, 'office');
   const why=impacts(r).filter(([g,v])=>Math.abs(v)>=5 && !(g==='c'&&!r.f.c) && !(g==='a'&&!r.f.a)).sort((a,b)=>Math.abs(b[1])-Math.abs(a[1])).slice(0,4)
     .map(([g,v])=>[v>0?'y':'n', FL[g](r.f), (v>0?'+':'−')+money(Math.abs(v))]);
   if(r.f.c && FAR.has(r.f.c)) why.push(['o', `${titleCase(r.f.c)} is a long drive from Buckhead. Only with a nearby second appointment.`, '']);
@@ -626,7 +794,7 @@ function verdict(c){
   return {cls, word: cls==='take'?'Take it': cls==='ok'?'OK':'Skip it', sub, why, r};
 }
 function renderMath(r){
-  const b=$('how-bd'); b.innerHTML=''; const L={base:'start',h:'time',d:'day',s:'source',b:'booked',c:'area',m:'month',a:'setter'};
+  const b=$('how-bd'); b.innerHTML=''; const L={base:'start',h:'time',d:'day',s:'source',b:'booked',c:'area',m:'month',a:'setter',me:'your edge'};
   const fmtz=o=>{ const e=Object.entries(o).filter(([k,v])=>k==='base'||Math.abs(v)>=0.005); return e.map(([k,v],i)=>(i? (v<0?' − ':' + ') : (v<0?'−':''))+Math.abs(v).toFixed(2)+' '+L[k]).join('')+' = '+zsum(o).toFixed(2); };
   const add=(t,cls,txt)=>{ const n=el(t,cls,txt); b.appendChild(n); return n; };
   add('p',null,'Each factor adds or subtracts points (z). The chance is 1 ÷ (1 + e^−z). Numbers below are live for the appointment above.');
@@ -637,7 +805,7 @@ function renderMath(r){
   add('h4',null,'3. Sale chance');
   add('div','eq',`${pct(r.d)} × ${pct(r.sd)} = ${(r.s*100).toFixed(1)}%`);
   add('h4',null,'4. Expected commission');
-  add('div','eq',`$1,060 per sale × ${r.tf.toFixed(2)} time${r.lf<1?' × 0.82 Lowe\'s':''} = ${money(r.comm)} if sold\n${(r.s*100).toFixed(1)}% × ${money(r.comm)} = ${money(r.exp)}`);
+  add('div','eq',`$1,060 per sale × ${r.tf.toFixed(2)} time${ck.src==='lowes'?' × 0.82 Lowe\'s':''}${prefs.basis==='mine'?' × 0.90 your per-sale pay':''} = ${money(r.comm)} if sold\n${(r.s*100).toFixed(1)}% × ${money(r.comm)} = ${money(r.exp)}`);
   add('h4',null,'Where the numbers come from');
   add('p',null,'13,223 Atlanta appointments, January 2025 to September 2026, every rep. Each rep\'s skill is its own term and is averaged out, so these are office-average odds. None of your personal results are in them.');
   add('p',null,'Tested on data it never saw. Built from 2025 alone, it predicted 2026: the appointments it ranked in the top fifth sold 24.6% of the time (it said 24.1%) and the bottom fifth sold 10.3% (it said 10.9%). Built from 2026, it predicted 2025 just as closely.');
@@ -645,7 +813,7 @@ function renderMath(r){
   add('p','faint','These are odds, not promises. Even a strong appointment usually doesn\'t sell. The payoff comes from stacking better odds every week.');
 }
 function renderCheck(){
-  const tg=$('c-time'); tg.innerHTML=''; HOURS.forEach(h=>tg.appendChild(btn('chip', SLOTL[h], ck.time===h, ()=>{ck.time=h; saveCk();})));
+  const tg=$('c-time'); tg.innerHTML=''; const hrs=HOURS.includes(ck.time)||ck.time==null? HOURS : HOURS.concat([ck.time]).sort((a,b)=>a-b); hrs.forEach(h=>tg.appendChild(btn('chip', tlab(h), ck.time===h, ()=>{ck.time=h; saveCk();})));
   const sg=$('c-src'); sg.innerHTML=''; SRC.forEach(([k,l])=>sg.appendChild(btn('chip', l, ck.src===k, ()=>{ck.src=k; saveCk();})));
   const bg=$('c-book'); bg.innerHTML=''; [['today','Today'],['yesterday','Day before'],['older','2+ days']].forEach(([k,l])=>bg.appendChild(btn(null,l,ck.book===k,()=>{ck.book=k; saveCk();})));
   const dg=$('c-day'); dg.innerHTML=''; DORDER.forEach(d=>dg.appendChild(btn(null, DAB[d].slice(0,2), ck.day===d, ()=>{ck.day=d; saveCk();})));
@@ -656,7 +824,7 @@ function renderCheck(){
   const ul=$('v-why'); ul.innerHTML=''; v.why.forEach(([k,t,amt])=>{ const li=el('li','why-'+k); li.appendChild(el('i',null,k==='y'?'✓':k==='n'?'✕':'·')); const sp=el('span','t'); sp.appendChild(el('span',null,t)); if(amt) sp.appendChild(el('span','why-amt',amt)); li.appendChild(sp); ul.appendChild(li); });
   const oc=$('odds-card'); oc.hidden=!v.r;
   if(v.r){ const r=v.r, lw=ck.src==='lowes';
-    $('o-month').textContent=MNAME[now.getMonth()];
+    $('o-month').textContent=MNAME[now.getMonth()]; $('o-who').textContent= prefs.basis==='mine'? 'Your 2026 averages' : 'Office-average rep';
     $('o-demo').textContent=pct(r.d); $('o-demo-bar').style.width=(r.d*100).toFixed(1)+'%'; $('o-demo-sub').textContent=`They're home and you demo. Office ${pct(OFFICE.demo)}.`;
     $('o-sale').textContent=pct(r.s); $('o-sale-bar').style.width=(r.s*100).toFixed(1)+'%'; $('o-sale-sub').textContent=`${pct(r.sd)} once you demo. Office ${pct(OFFICE.sale)}.`;
     $('o-price').textContent='$'+((lw?PRICE.lowes:PRICE.avg)/1000).toFixed(1)+'k'; $('o-price-sub').textContent= lw? 'Lowe\'s deals run lower.' : `Most sell for $${(PRICE.lo/1000).toFixed(1)}k–$${(PRICE.hi/1000).toFixed(1)}k.`;
@@ -666,6 +834,92 @@ function renderCheck(){
   else { $('how-bd').innerHTML=''; $('how-bd').appendChild(el('p','faint','Pick a start time and lead source to see the math.')); }
 }
 function saveCk(){ lsSet('afc-check', ck); renderCheck(); }
+
+
+// ================= PICKS =================
+const TRIGGER_ID='trig_01BP7LKuZ6EG9YMh2CiCP39j';
+const CLAUDE_URL='https://claude.ai/artifact/6aeTEzkL9GtVJGc5YTYCYe';
+let picks=lsGet('afc-picks', null), pmarks=lsGet('afc-pmarks', {date:null, m:{}}), mcpNs=null, pkReq=lsGet('afc-pkreq', null), pkSort='best', pkErr='';
+const pkTarget=()=>{ const d=new Date(); if(d.getHours()<5) return dkey(d); d.setDate(d.getDate()+1); return dkey(d); };
+const pkRows=()=> (!picks||!Array.isArray(picks.rows))? [] : picks.rows.map(r=>Array.isArray(r)? Object.fromEntries((picks.cols||[]).map((c,i)=>[c,r[i]])) : r);
+const campL=c=>String(c||'').replace(/^WT /,'').replace(' (THD Store)','').replace('Appliance Longevity','Appliance');
+const tcase=n=>String(n||'').toLowerCase().replace(/\b[a-z]/g,c=>c.toUpperCase()).replace(/\bMc([a-z])/g,(m,c)=>'Mc'+c.toUpperCase());
+const tshort=l=>`${(l.hour%12)||12}${l.minute?':'+pad(l.minute):''}${l.hour<12?'a':'p'}`;
+const dlabel=k=>{ if(!k) return ''; const d=parseD(k); const t=new Date(); t.setHours(0,0,0,0); const diff=Math.round((d-t)/864e5); const w=d.toLocaleDateString('en-US',{weekday:'long', month:'short', day:'numeric'}); return diff===0? 'Today · '+w : diff===1? 'Tomorrow · '+w : w; };
+function pkLeads(){ const L=FCE.enrich(pkRows(), {avoid:AVOID, mode:prefs.basis}); const mk=(pmarks&&pmarks.date===(picks&&picks.date))? pmarks.m||{} : {}; L.forEach(l=>{ l.mark=mk[l.id]||''; l.gone=l.mark==='gone'; }); return L; }
+function pkPlan(L){ const d=picks&&picks.date? parseD(picks.date).getDay() : 3; const slots=prefs.pkSlots||(prefs.week.s[d]||[]).length||2; return {slots, P:FCE.plan(L,{slots, evenings:prefs.pkEve, must:L.filter(l=>l.mark==='mine').map(l=>l.id)})}; }
+function picksPlanLine(dateKey){ try{ if(!picks||picks.date!==dateKey||picks.status!=='ready') return ''; const {P}=pkPlan(pkLeads()); return P.best? P.best.seq.map(l=>`${tshort(l)} ${tcase(l.name).split(' ').pop()}`).join(' + ') : ''; }catch(e){ return ''; } }
+function savePmarks(){ lsSet('afc-pmarks', pmarks); if(mode==='cloud'&&db){ chains.pm=(chains.pm||Promise.resolve()).then(()=>db.collection('data/users/'+uid).doc('picks-marks').set(JSON.parse(JSON.stringify(pmarks)))).catch(()=>{}); } }
+function setMark(id, v){ if(!picks) return; if(pmarks.date!==picks.date) pmarks={date:picks.date, m:{}}; if(pmarks.m[id]===v) delete pmarks.m[id]; else pmarks.m[id]=v; savePmarks(); renderPicks(); renderToday(); }
+async function runPicks(){
+  const b=$('pk-go'); if(b.disabled) return; pkErr='';
+  if(!mcpNs){ pkErr='Ranking needs the Claude version of Field Card.'; renderPicks(); return; }
+  b.disabled=true; const target=pkTarget(); const t=new Date();
+  try{ await mcpNs.callTool('Claude Code Remote','fire_trigger',{trigger_id:TRIGGER_ID, text:`Target date: ${target}. Requested from the Field Card app at ${t.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}.`},{cache:false});
+    pkReq={at:t.toISOString(), date:target}; lsSet('afc-pkreq', pkReq); toast('Claude is on it'); }
+  catch(e){ const c=e&&e.code; pkErr= c==='server_not_connected'? 'Connect "Claude Code Remote" in claude.ai Settings → Connectors, then try again.' : c==='needs_reauth'? 'Reconnect "Claude Code Remote" in claude.ai Settings → Connectors.' : c==='not_in_manifest'||c==='not_granted'? 'This page isn\'t allowed to start the ranking. Allow it when Claude asks, then try again.' : c==='tool_error'? 'The ranking task refused to start: '+(e.message||'').slice(0,140) : 'Couldn\'t start the ranking ('+(c||'error')+'). Try again in a minute.'; }
+  b.disabled=false; renderPicks(); }
+function renderPicks(){
+  const cloud=mode==='cloud', target=pkTarget();
+  const ready=picks&&picks.status==='ready'&&pkRows().length>0;
+  const waiting=pkReq&&(!picks||!picks.fetchedAt||new Date(picks.fetchedAt)<new Date(pkReq.at))&&(Date.now()-new Date(pkReq.at))<20*60*1000;
+  const dot=$('pk-dot'), st=$('pk-status'), go=$('pk-go');
+  $('pk-date').textContent= dlabel(picks&&picks.date&&picks.date>=dkey(now)? picks.date : target);
+  dot.className='dotl'+(waiting?' busy':ready?' ok':(picks&&/login|computer|error/.test(picks.status||''))?' bad':'');
+  if(waiting) st.textContent=`Claude is pulling the sheet… (asked ${new Date(pkReq.at).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})})`;
+  else if(picks&&picks.status&&picks.status!=='ready') st.textContent=picks.message||'The last run hit a problem.';
+  else if(ready) st.textContent=`${pkRows().length} leads · pulled ${new Date(picks.fetchedAt).toLocaleString('en-US',{weekday:'short',hour:'numeric',minute:'2-digit'})}`;
+  else st.textContent= cloud? 'No leads pulled yet' : 'Ranking runs in the Claude version';
+  const cnt=$('pk-count'); cnt.hidden=!ready; if(ready){ const g=pkLeads().filter(l=>!l.gone).length; cnt.textContent=`${g} open`; }
+  go.hidden=!cloud; go.textContent= ready&&picks.date===target? 'Pull the sheet again' : `Rank ${target===dkey(now)?'today\'s':'tomorrow\'s'} leads`;
+  const help=$('pk-help');
+  if(!cloud){ help.innerHTML=''; help.appendChild(document.createTextNode('Claude does the pulling, so Picks lives in the Claude version of Field Card (sign in required). ')); const a=el('a',null,'Open it in Claude'); a.href=CLAUDE_URL; a.target='_blank'; a.rel='noopener'; a.style.color='var(--accent)'; a.style.fontWeight='650'; help.appendChild(a); help.appendChild(document.createTextNode('. It also runs by itself at 9:50 PM the night before your field days.')); }
+  else help.textContent= pkErr || 'Claude opens the lead sheet in Salesforce on your computer, pulls every appointment and ranks it here. About 3–6 minutes. It also runs by itself at 9:50 PM the night before your field days. Your computer needs to be on with Chrome open.';
+  if(pkErr) help.style.color='var(--skip)'; else help.style.color='';
+  const nt=$('pk-note'); nt.hidden=!(ready&&picks.note); if(ready&&picks.note) nt.textContent=picks.note;
+  ['pk-plan','pk-bk-card','pk-alt-card','pk-list-card','pk-opts'].forEach(id=>$(id).hidden=!ready);
+  if(!ready) return;
+  const L=pkLeads(); const {slots,P}=pkPlan(L); const inPlan=new Set(P.best? P.best.seq.map(l=>l.id) : []);
+  // plan
+  $('pk-plan-k').textContent= `${dlabel(picks.date)}`; $('pk-plan-b').textContent= prefs.basis==='mine'? 'Your averages' : 'Office rates';
+  const pp=$('pk-plan-p'); pp.innerHTML='';
+  if(P.best){ $('pk-plan-t').textContent= L.some(l=>l.mark==='mine')? 'Your plan' : 'Plan A';
+    P.best.seq.forEach(l=>{ const d=el('div','ppill'); d.appendChild(el('b',null,tshort(l))); const m=el('div'); m.appendChild(el('span','nm',tcase(l.name))); m.appendChild(el('span','sm',`${tcase(l.city)} · ${campL(l.camp)}${l.mark==='mine'?' · yours':''}`)); d.appendChild(m); d.appendChild(el('span','v',money(l.exp))); pp.appendChild(d); });
+    const h=Math.floor(P.best.drive/60), mn=P.best.drive%60; $('pk-plan-l').textContent=`About ${money(P.best.gross)} expected · ${h?h+' h ':''}${mn} min of driving from Buckhead and back.`; }
+  else { $('pk-plan-t').textContent='No plan fits'; $('pk-plan-l').textContent= prefs.pkEve? 'Nothing left that fits. Clear a Gone mark or allow fewer appointments.' : 'No daytime combination fits. Turn on evening appointments below, or allow fewer appointments.'; }
+  // backups
+  const bk=$('pk-bk'); bk.innerHTML=''; (P.backups||[]).forEach(b=>{ const w=el('div','bk'); w.appendChild(el('span','for',`If ${tcase(b.for.name)} (${tshort(b.for)}) is gone`)); if(!b.options.length) w.appendChild(el('span','faint','Nothing else fits with the rest of the plan.')); b.options.forEach((o,i)=>{ const r=el('div','opt'); r.appendChild(el('i',null,String(i+1))); r.appendChild(el('span',null,`${tshort(o.lead)} ${tcase(o.lead.name)} · ${tcase(o.lead.city)}`)); r.appendChild(el('span','v',money(o.lead.exp))); w.appendChild(r); }); bk.appendChild(w); });
+  $('pk-bk-card').hidden=!(P.backups&&P.backups.length);
+  // alternates
+  const al=$('pk-alt'); al.innerHTML=''; (P.alts||[]).forEach((a,i)=>{ const r=el('div','bk'); r.appendChild(el('span','for',`Plan ${'BC'[i]} · about ${money(a.gross)} · ${a.drive} min driving`)); r.appendChild(el('span',null,a.seq.map(l=>`${tshort(l)} ${tcase(l.name)} (${tcase(l.city)})`).join('  +  '))); al.appendChild(r); });
+  $('pk-alt-card').hidden=!(P.alts&&P.alts.length);
+  // list
+  const sg=$('pk-sort'); sg.innerHTML=''; [['best','Best'],['time','Time']].forEach(([k,l])=>sg.appendChild(btn(null,l,pkSort===k,()=>{pkSort=k; renderPicks();})));
+  const list=L.slice().sort(pkSort==='time'? (a,b)=>a.mins-b.mins||b.exp-a.exp : (a,b)=>(a.gone-b.gone)||b.exp-a.exp);
+  $('pk-list-h').textContent=`All ${L.length} leads`;
+  const ul=$('pk-list'); ul.innerHTML='';
+  list.forEach(l=>{ const li=el('li'); const row=el('div','lead'+(l.gone?' isgone':'')+(inPlan.has(l.id)?' inplan':''));
+    row.appendChild(el('div','av '+l.verdict, tshort(l)));
+    const mid=el('div'); mid.appendChild(el('div','w',tcase(l.name))); mid.appendChild(el('div','d',`${tcase(l.city)} · ${campL(l.camp)}${l.book==='0'?' · booked today':l.book==='2'?' · booked 2+ days ahead':''}${l.avoid?' · avoid-list setter':''} · ${l.fromHome} min away`)); row.appendChild(mid);
+    const r=el('div','r'); r.appendChild(el('b',null,money(l.exp))); r.appendChild(el('span',null,`sale ${Math.round(l.sale*100)}%`)); row.appendChild(r);
+    if(l.twins&&l.twins.length){ const tw=L.find(x=>x.id===l.twins[0]); if(tw) row.appendChild(el('div','flag',`Same ZIP and last name as ${tcase(tw.name)} (${tshort(tw)}): likely one household.`)); }
+    if(l.owner && !/^avery williams$/i.test(l.owner)) row.appendChild(el('div','flag',`Assigned to ${l.owner}`));
+    const acts=el('div','acts');
+    const mb=btn('mine','Mine',l.mark==='mine',()=>setMark(l.id,'mine')); const gb=btn('gone','Gone',l.mark==='gone',()=>setMark(l.id,'gone'));
+    const cb=btn(null,'Odds',null,()=>{ Object.assign(ck,{time:l.hour, day:l.dow, src:l.src, book:{'0':'today','1':'yesterday','2':'older'}[l.book], area:normCity(l.city), setter: AVOID.find(a=>a.toUpperCase()===String(l.setter||'').toUpperCase())||''}); saveCk(); showTab('check'); });
+    acts.appendChild(mb); acts.appendChild(gb); acts.appendChild(cb); row.appendChild(acts);
+    li.appendChild(row); ul.appendChild(li); });
+  // options
+  $('pk-eve').checked=!!prefs.pkEve; $('pk-sl-o').textContent=slots; $('pk-slots-sub').textContent= prefs.pkSlots? 'Set here' : 'From your week';
+}
+async function initPicks(){
+  try{ if(window.claude&&window.claude.use) mcpNs=await window.claude.use('mcp'); }catch(e){ mcpNs=null; }
+  if(mode==='cloud'&&db&&!initPicks.sub){ initPicks.sub=true;
+    db.collection('data/users/'+uid).doc('picks').onSnapshot(sn=>{ if(sn.exists){ picks=sn.data(); lsSet('afc-picks',picks); } renderPicks(); renderToday(); }, ()=>{});
+    db.collection('data/users/'+uid).doc('picks-marks').onSnapshot(sn=>{ if(sn.exists){ const d=sn.data(); if(d&&d.m) { pmarks={date:d.date, m:Object.assign({},d.m)}; lsSet('afc-pmarks',pmarks); } } renderPicks(); }, ()=>{});
+  }
+  renderPicks();
+}
 
 // ================= LOG =================
 const lf={time:10, res:null};
@@ -688,6 +942,7 @@ function renderLog(){
   const tile=(v,l)=>{ const d=el('div','tile'); d.appendChild(el('b',null,v)); d.appendChild(el('span',null,l)); t.appendChild(d); };
   tile(String(s.runs), 'Appointments'); tile(s.runs? Math.round(100*s.demos/s.runs)+'%':'–', 'Became demos · goal 50%');
   tile(String(s.sold), s.runs? `Sales · ${Math.round(100*s.sold/s.runs)}% of appointments`:'Sales'); tile(money(s.comm), s.runs? `Est. commission · ${money(s.comm/s.runs)}/appt`:'Est. commission');
+  const oi=$('m-ovr'); if(document.activeElement!==oi) oi.value= typeof m.ovr==='number'? m.ovr : ''; oi.placeholder=`Plan ${money(prefs.ovr)}`; $('m-total').textContent=money(s.comm+(typeof m.ovr==='number'?m.ovr:0));
   // breakdown
   const bc=$('m-breakcard'), br=$('m-break'); br.innerHTML=''; bc.hidden=!s.runs;
   if(s.runs){ const rows=[]; const add=(k,list)=>{ const n=list.length, sold=list.filter(e=>e.res==='sold').length; if(n) rows.push([k,n,sold,Math.round(100*sold/n)+'%']); };
@@ -720,7 +975,7 @@ function renderRules(){
     ['When it was booked','#b07a00','<rect x="3" y="4" width="18" height="17" rx="3"/><path d="M3 10h18M8 2v4M16 2v4"/>',[['take','Take','Booked today. About $330 a run: sells about twice as often.'],['ok','OK','Booked the day before. The normal case, about $170.'],['skip','Weak','Booked 2+ days ahead. About $135.']]],
     ['Setters','#c53a3a','<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M17 11h5"/>',[['skip','Avoid', AVOID.length? AVOID.join(', ')+'. 20–30% fewer sales per appointment in both years.' : 'Your avoid-list setters (add them in Settings). 20–30% fewer sales per appointment in both years.'],['plain','Others','No dependable top list.']]],
     ['Months','#7a5cd6','<path d="M3 17l5-5 4 4 8-8"/><path d="M14 8h6v6"/>',null],
-    ['Field-day routine','#0a7f8c','<path d="M4 6h16M4 12h10M4 18h7"/>',[['plain','Night','Pick tomorrow\'s appointments in Check. Second one within ~20 min of the first.'],['plain','8:30','Confirm the morning appointment and every decision-maker.'],['plain','Lunch','Confirm the afternoon one. Take same-day daytime bookings.'],['plain','~4:30','Done. Log results. Text installs for referrals.']]],
+    ['Field-day routine','#0a7f8c','<path d="M4 6h16M4 12h10M4 18h7"/>',[['plain','Night','Open Picks: Claude ranks tomorrow\'s sheet at 9:50 PM, or tap Rank. Mark leads Gone as they get taken.'],['plain','8:30','Confirm the morning appointment and every decision-maker.'],['plain','Lunch','Confirm the afternoon one. Take same-day daytime bookings.'],['plain','~4:30','Done. Log results. Text installs for referrals.']]],
     ['Monthly targets','#16a35a','<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',[['plain','26–30','Appointments, all 10 AM–2 PM'],['plain','50%+','Become full demos'],['plain','6+','Sales written (office pace for these slots)'],['plain','2','Personal or referral leads'],['plain','0','Evening, Sunday or avoid-list appointments']]]];
   const g=$('rules'); g.innerHTML='';
   R.forEach(([title,color,icon,lanes],i)=>{ const d=document.createElement('details'); if(i===0) d.open=true; const s=document.createElement('summary');
@@ -732,10 +987,18 @@ function renderRules(){
 }
 
 // ================= tabs + wiring =================
-const TABS=['today','week','check','log','rules'];
-function showTab(t){ TABS.forEach(x=>{ $('s-'+x).hidden = x!==t; $('t-'+x).setAttribute('aria-selected', String(x===t)); }); $('fab').hidden = t!=='log'; lsSet('afc-tab', t);
+const TABS=['today','picks','check','week','log','rules'];
+let lastTab='today';
+function showTab(t){ if(t!=='rules') lastTab=t; TABS.forEach(x=>{ $('s-'+x).hidden = x!==t; const tb=$('t-'+x); if(tb) tb.setAttribute('aria-selected', String(x===t||(t==='rules'&&x==='check'))); }); $('fab').hidden = t!=='log'; if(t!=='rules') lsSet('afc-tab', t);
+  if(t==='picks') renderPicks();
   if(t==='today') renderToday(); if(t==='week') renderWeek(); if(t==='check') renderCheck(); if(t==='log') renderLog(); window.scrollTo(0,0); }
-TABS.forEach(t=>$('t-'+t).addEventListener('click',()=>showTab(t)));
+TABS.forEach(t=>{ const tb=$('t-'+t); if(tb) tb.addEventListener('click',()=>showTab(t)); });
+$('c-rules').addEventListener('click',()=>showTab('rules')); $('r-done').addEventListener('click',()=>showTab(lastTab==='rules'?'check':lastTab));
+$('pk-go').addEventListener('click',runPicks);
+$('pk-eve').addEventListener('change',e=>{ prefs.pkEve=e.target.checked; savePrefs(); renderPicks(); renderToday(); });
+$('pk-sl-m').addEventListener('click',()=>{ const cur=Number($('pk-sl-o').textContent)||2; prefs.pkSlots=Math.max(1,cur-1); savePrefs(); renderPicks(); renderToday(); });
+$('pk-sl-p').addEventListener('click',()=>{ const cur=Number($('pk-sl-o').textContent)||2; prefs.pkSlots=Math.min(3,cur+1); savePrefs(); renderPicks(); renderToday(); });
+$('m-ovr').addEventListener('change',e=>{ const v=e.target.value.trim(); const m=monthData(viewMonth); if(v===''){ delete m.ovr; } else { const n=Number(v); if(!(n>=0)) return; m.ovr=Math.round(n); } saveMonth(viewMonth); renderLog(); renderToday(); toast('Overrides saved'); });
 function fillSelects(){
   const area=$('c-area'); const o0=el('option',null,'Not sure / other'); o0.value=''; area.appendChild(o0);
   CITIES.forEach(n=>{ const o=el('option',null,titleCase(n)+(FAR.has(n)?' (far)':'')); o.value=n; area.appendChild(o); });
@@ -758,11 +1021,15 @@ $('fab').addEventListener('click',openSheet); $('sh-close').addEventListener('cl
 document.addEventListener('keydown',e=>{ if(e.key==='Escape' && $('sheet').classList.contains('open')) closeSheet(); });
 $('m-prev').addEventListener('click',()=>shiftMonth(-1)); $('m-next').addEventListener('click',()=>shiftMonth(1));
 renderRules();
-const hashTab=(location.hash||'').replace('#',''); showTab(TABS.includes(hashTab)?hashTab:lsGet('afc-tab','today'));
+const hashTab=(location.hash||'').replace('#',''); showTab(TABS.includes(hashTab)?hashTab:(TABS.includes(lsGet('afc-tab','today'))&&lsGet('afc-tab','today')!=='rules'? lsGet('afc-tab','today') : 'today'));
+try{ if(navigator.storage&&navigator.storage.persist) navigator.storage.persist().catch(()=>{}); }catch(e){}
+window.FCE=FCE;
+initPicks();
 
 // ================= settings, backup, offline =================
 let openSheetId=null;
-function openSettings(){ $('set-avoid').value=AVOID.join('\n'); $('set-persale').value=PER_SALE; $('bk-restore').hidden=true; $('bk-text').value=''; wipeArmed=false; $('wipe').classList.remove('arm'); $('wipe').textContent='Erase all data on this phone';
+function renderBasis(){ const g=$('set-basis'); g.innerHTML=''; [['office','Office averages'],['mine','My averages']].forEach(([k,l])=>g.appendChild(btn(null,l,prefs.basis===k,()=>{ prefs.basis=k; savePrefs(); renderBasis(); renderToday(); renderWeek(); renderCheck(); renderPicks(); }))); $('set-basis-note').textContent= prefs.basis==='mine'? 'Using your 2026 results (249 appointments): about 22% above the office per appointment. In 2025 you were about 14% below, so this is the optimistic view.' : 'What an average rep earns, with rep skill factored out. The conservative view.'; }
+function openSettings(){ renderBasis(); $('bk-file').hidden= mode==='cloud'; $('set-avoid').value=AVOID.join('\n'); $('set-persale').value=PER_SALE; $('bk-restore').hidden=true; $('bk-text').value=''; wipeArmed=false; $('wipe').classList.remove('arm'); $('wipe').textContent='Erase all data on this phone';
   $('scrim').classList.add('open'); const sh=$('set-sheet'); sh.classList.add('open'); sh.setAttribute('aria-hidden','false'); openSheetId='set'; setTimeout(()=>$('set-close').focus(),50); }
 function closeSettings(){ const names=$('set-avoid').value.split('\n').map(x=>x.trim()).filter(Boolean).slice(0,20); AVOID=names; lsSet('afc-avoid',AVOID);
   const ps=Number($('set-persale').value); if(ps>0){ PER_SALE=ps; lsSet('afc-persale',ps); }
@@ -777,6 +1044,12 @@ $('bk-copy').addEventListener('click',()=>{ const txt=collectBackup(); const don
   if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done).catch(()=>{ $('bk-restore').hidden=false; $('bk-text').value=txt; $('bk-text').select(); toast('Select all and copy this text'); }); }
   else { $('bk-restore').hidden=false; $('bk-text').value=txt; $('bk-text').select(); toast('Select all and copy this text'); } });
 $('bk-show').addEventListener('click',()=>{ $('bk-restore').hidden=false; $('bk-text').focus(); });
+$('bk-rules').addEventListener('click',()=>{ closeSettings(); showTab('rules'); });
+$('bk-pick').addEventListener('click',()=>$('bk-input').click());
+$('bk-input').addEventListener('change',e=>{ const f=e.target.files&&e.target.files[0]; if(!f) return; const rd=new FileReader(); rd.onload=()=>{ $('bk-text').value=String(rd.result||''); toast('File loaded. Tap Restore.'); }; rd.readAsText(f); });
+$('bk-file').addEventListener('click',async()=>{ const txt=collectBackup(); const name=`field-card-backup-${dkey(new Date())}.json`;
+  try{ const file=new File([txt], name, {type:'application/json'}); if(navigator.canShare&&navigator.canShare({files:[file]})){ await navigator.share({files:[file], title:'Field Card backup'}); toast('Backup saved'); return; } }catch(e){ if(e&&e.name==='AbortError') return; }
+  try{ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([txt],{type:'application/json'})); a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },500); toast('Backup downloaded'); }catch(e){ toast('Couldn\'t save a file here. Use Copy backup.'); } });
 $('bk-apply').addEventListener('click',()=>{ let o=null; try{ o=JSON.parse($('bk-text').value.trim()); }catch(e){}
   if(!o || o.app!=='field-card' || !o.data || typeof o.data!=='object'){ toast('That doesn\'t look like a Field Card backup'); return; }
   try{ Object.entries(o.data).forEach(([k,v])=>{ if(k.startsWith('afc-') && typeof v==='string') localStorage.setItem(k,v); }); }catch(e){ toast('Couldn\'t restore on this phone'); return; }
