@@ -12,8 +12,8 @@
 <meta name="apple-mobile-web-app-title" content="Field Card">
 <meta name="theme-color" content="#eef2f5" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#070d12" media="(prefers-color-scheme: dark)">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="app-icon-180.png">
+<link rel="icon" type="image/png" href="app-icon-64.png">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -177,6 +177,26 @@ select{background-image:linear-gradient(45deg, transparent 50%, var(--ink-3) 50%
 .verdict.skip{background:var(--skip-bg)} .verdict.skip .word, .verdict.skip .ico{color:var(--skip)}
 .verdict.none .word{color:var(--ink-3)}
 .why-y i{color:var(--take)} .why-n i{color:var(--skip)} .why-o i{color:var(--ink-3)}
+/* odds */
+.odds{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px}
+.odd{background:var(--surface-2); border-radius:14px; padding:12px; display:flex; flex-direction:column; gap:5px; min-width:0}
+.odd .lab{font-size:.68rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-3)}
+.odd b{font-family:var(--display); font-stretch:112%; font-size:1.65rem; font-weight:750; line-height:1.05; font-variant-numeric:tabular-nums}
+.odd span{font-size:.76rem; color:var(--ink-2); line-height:1.3}
+.pbar{height:6px; border-radius:999px; background:var(--track); overflow:hidden}
+.pbar i{display:block; height:100%; width:0; border-radius:999px; background:var(--accent); transition:width .35s cubic-bezier(.2,.8,.2,1)}
+.exp{display:flex; justify-content:space-between; align-items:center; gap:12px; padding-top:12px; border-top:1px solid var(--line)}
+.exp b{font-family:var(--display); font-stretch:114%; font-size:1.9rem; font-weight:800; line-height:1; font-variant-numeric:tabular-nums; color:var(--accent)}
+.verdict .stats{display:flex; flex-wrap:wrap; gap:6px}
+.verdict .stats span{font-size:.78rem; font-weight:700; padding:5px 9px; border-radius:999px; background:rgba(255,255,255,.55); color:var(--ink); font-variant-numeric:tabular-nums}
+.why-amt{margin-left:auto; font-weight:700; font-variant-numeric:tabular-nums; padding-left:8px}
+.verdict li span.t{display:flex; gap:6px}
+.math{font-size:.86rem; color:var(--ink-2)}
+#how-bd{padding-left:16px}
+.math .eq{font-family:ui-monospace, "SF Mono", Menlo, monospace; font-size:.76rem; line-height:1.5; background:var(--surface-2); color:var(--ink); border-radius:10px; padding:10px 12px; white-space:pre-wrap; word-break:break-word}
+.math h4{margin:4px 0 0; font-size:.8rem; font-weight:700; color:var(--ink); letter-spacing:.01em}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .verdict .stats span{background:rgba(0,0,0,.28)} }
+:root[data-theme="dark"] .verdict .stats span{background:rgba(0,0,0,.28)}
 /* log */
 .monthnav{display:flex; align-items:center; justify-content:space-between; gap:8px}
 .monthnav button{font:inherit; width:40px; height:40px; border-radius:12px; border:0; background:var(--surface-2); color:var(--ink); cursor:pointer; font-size:1.1rem}
@@ -272,7 +292,7 @@ nav.tabbar button[aria-selected="true"]{color:var(--accent)}
       <svg viewBox="0 0 128 128" role="img" aria-label="Month progress rings" id="rings"></svg>
       <div class="legend" id="ring-legend"></div>
     </div>
-    <div class="moneyline"><div><div class="eyebrow">Est. commission</div><b id="td-comm">$0</b></div><div style="text-align:right"><div class="eyebrow">Plan this month</div><span class="muted num" id="td-plan"></span></div></div>
+    <div class="moneyline"><div><div class="eyebrow">Est. commission</div><b id="td-comm">$0</b></div><div style="text-align:right"><div class="eyebrow">Plan + overrides</div><span class="muted num" id="td-plan"></span></div></div>
   </div>
   <div class="card">
     <div class="row"><h3>Checklist</h3><span class="faint" id="td-checkcount"></span></div>
@@ -294,16 +314,16 @@ nav.tabbar button[aria-selected="true"]{color:var(--accent)}
   <div class="scroller" id="wk-presets" role="group" aria-label="Presets"></div>
   <div class="card">
     <div class="wk" id="wk-grid"></div>
-    <div class="keyrow"><span><i style="background:var(--take-bg)"></i>$240+ a run</span><span><i style="background:var(--ok-bg)"></i>$160–239</span><span><i style="background:var(--skip-bg)"></i>under $160</span><span><i style="background:var(--accent)"></i>In your week</span></div>
+    <div class="keyrow"><span><i style="background:var(--take-bg)"></i>$205+ a run</span><span><i style="background:var(--ok-bg)"></i>$165–204</span><span><i style="background:var(--skip-bg)"></i>under $165</span><span><i style="background:var(--accent)"></i>In your week</span></div>
   </div>
   <div class="field"><span class="eyebrow">Month</span><div class="scroller" id="wk-months"></div></div>
   <div class="card">
     <div class="toggle"><span>Confirm every appointment<small>About +5% per run</small></span><label class="sw"><input type="checkbox" id="wk-conf" aria-label="Confirm every appointment"><i></i></label></div>
     <div class="toggle"><span>Skip the avoid-list setters<small>About +2% per run</small></span><label class="sw"><input type="checkbox" id="wk-set" aria-label="Skip the avoid-list setters"><i></i></label></div>
-    <div class="toggle"><span>Personal leads a month<small>About +$300 each</small></span><div class="stepper"><button type="button" id="pers-m" aria-label="Fewer personal leads">−</button><output id="pers-o">0</output><button type="button" id="pers-p" aria-label="More personal leads">+</button></div></div>
+    <div class="toggle"><span>Personal leads a month<small>About +$270 each</small></span><div class="stepper"><button type="button" id="pers-m" aria-label="Fewer personal leads">−</button><output id="pers-o">0</output><button type="button" id="pers-p" aria-label="More personal leads">+</button></div></div>
     <div class="toggle"><span>Overrides a month</span><div class="stepper"><button type="button" id="ovr-m" aria-label="Lower overrides">−</button><output id="ovr-o">$2,000</output><button type="button" id="ovr-p" aria-label="Raise overrides">+</button></div></div>
   </div>
-  <p class="faint">Low end = office rate for your slots; high end adds your 1.13× edge. About 3¼ hours per appointment including drive, 3 per manager block. The “My old weeks” preset lands within $1 a run of real results, so the model is calibrated.</p>
+  <p class="faint">Office-average rates: what an average rep earns in each slot, with rep skill factored out. None of your personal results are in these numbers. About 3¼ hours per appointment including drive, 3 per manager block. Your 2026 appointments were worth $174 a run at office rates and you made $213, so your edge is upside, not part of the plan.</p>
 </section>
 
 <!-- ============ CHECK ============ -->
@@ -311,7 +331,18 @@ nav.tabbar button[aria-selected="true"]{color:var(--accent)}
   <div class="titlebar"><div><h1>Check</h1><div class="sub">Should I take this appointment?</div></div><button type="button" class="chip" id="c-reset">Reset</button></div>
   <div class="verdict none" id="verdict" aria-live="polite">
     <div class="top"><div class="ico" id="v-ico"></div><div><div class="word" id="v-word">Pick</div><div class="sub" id="v-sub">Tap a start time and lead source.</div></div></div>
+    <div class="stats" id="v-stats" hidden></div>
     <ul id="v-why"></ul>
+  </div>
+  <div class="card" id="odds-card" hidden>
+    <div class="row"><h3>The odds</h3><span class="faint">Office-average rep · <span id="o-month"></span></span></div>
+    <div class="odds">
+      <div class="odd"><span class="lab">Home + demo</span><b id="o-demo">–</b><div class="pbar"><i id="o-demo-bar"></i></div><span id="o-demo-sub"></span></div>
+      <div class="odd"><span class="lab">Sale</span><b id="o-sale">–</b><div class="pbar"><i id="o-sale-bar"></i></div><span id="o-sale-sub"></span></div>
+      <div class="odd"><span class="lab">Sale price</span><b id="o-price">–</b><span id="o-price-sub"></span></div>
+      <div class="odd"><span class="lab">Commission</span><b id="o-comm">–</b><span id="o-comm-sub"></span></div>
+    </div>
+    <div class="exp"><div><div class="eyebrow">Expected from this one</div><span class="faint" id="o-exp-sub"></span></div><b id="o-exp">–</b></div>
   </div>
   <div class="card"><div class="eyebrow">Start time</div><div class="grid-chips" id="c-time"></div></div>
   <div class="card"><div class="eyebrow">Lead source</div><div class="wrap-chips" id="c-src"></div></div>
@@ -321,6 +352,7 @@ nav.tabbar button[aria-selected="true"]{color:var(--accent)}
     <div class="two"><div class="field"><label class="eyebrow" for="c-area">Area</label><select id="c-area"></select></div><div class="field"><label class="eyebrow" for="c-setter">Setter</label><select id="c-setter"></select></div></div>
     <p class="faint" id="c-setter-hint" hidden>Add your avoid-list setters in Settings (gear icon) to check them here.</p>
   </div>
+  <div class="group"><details id="how"><summary><span class="ic" style="background:#7a5cd6"><svg viewBox="0 0 24 24"><path d="M4 19h16"/><path d="M6 15l4-6 4 4 4-7"/></svg></span><b>How the odds are calculated</b><span class="chev"></span></summary><div class="bd math" id="how-bd"></div></details></div>
 </section>
 
 <!-- ============ LOG ============ -->
@@ -337,7 +369,7 @@ nav.tabbar button[aria-selected="true"]{color:var(--accent)}
 <!-- ============ RULES ============ -->
 <section class="screen" id="s-rules" aria-labelledby="t-rules" hidden>
   <div class="titlebar"><div><h1>Rules</h1><div class="sub">The locked plan, at a glance.</div></div><button type="button" class="iconbtn" data-settings aria-label="Settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>
-  <div class="card"><div class="eyebrow">Take it if</div><p>Two or more <span class="badge take">Take</span> items and no <span class="badge skip">Skip</span> items. Your own personal and referral leads always win.</p></div>
+  <div class="card"><div class="eyebrow">Take it if</div><p>Check does the math. <span class="badge take">Take</span> when an appointment is worth $200+ in expected commission, <span class="badge ok">OK</span> at $155–199, <span class="badge skip">Skip</span> under $155. Office-average rep, average month. Your own personal and referral leads always win.</p></div>
   <div class="group" id="rules"></div>
   <div class="foot">Full plan and charts (needs Claude sign-in): <a href="https://claude.ai/artifact/6vfhg3dmHZXKViNgr1MjSv">Money Plan</a></div>
 </section>
@@ -361,7 +393,7 @@ nav.tabbar button[aria-selected="true"]{color:var(--accent)}
   <div class="grab"></div>
   <div class="hd"><h2 id="set-title">Settings</h2><button type="button" class="x" id="set-close">Done</button></div>
   <div class="field"><label class="eyebrow" for="set-avoid">Avoid-list setters</label><textarea id="set-avoid" placeholder="One name per line"></textarea><span class="faint">Kept only on this phone. Check warns you when one of them booked the appointment.</span></div>
-  <div class="field"><label class="eyebrow" for="set-persale">Estimated commission per sale</label><input id="set-persale" type="number" inputmode="numeric" min="0" step="10"><span class="faint">Used for sales you haven't entered an amount for. It already accounts for declines and cancels.</span></div>
+  <div class="field"><label class="eyebrow" for="set-persale">Estimated commission per sale</label><input id="set-persale" type="number" inputmode="numeric" min="0" step="10"><span class="faint">Only used for logged sales you haven't entered an amount for. $950 is your 2026 average after declines and cancels, which is lower than the office's $1,060, so it errs low.</span></div>
   <div class="field"><span class="eyebrow">Backup</span><span class="faint">Your log lives only on this phone. Copy a backup now and then and keep it in Notes.</span>
     <div class="btnrow"><button type="button" class="btn ghost" id="bk-copy">Copy backup</button><button type="button" class="btn ghost" id="bk-show">Restore…</button></div>
     <div class="field" id="bk-restore" hidden><textarea id="bk-text" placeholder="Paste a backup here" aria-label="Backup text"></textarea><button type="button" class="btn" id="bk-apply">Restore this backup</button></div>
@@ -381,15 +413,16 @@ nav.tabbar button[aria-selected="true"]{color:var(--accent)}
 
 <script>
 
-// ================= data from the locked Money Plan =================
-const VAL={10:[197,250,270,314,247,245,259],11:[184,230,229,352,209,208,214],13:[173,274,274,306,231,190,305],14:[127,178,164,202,166,166,178],15:[112,119,118,114,91,122,131],18:[80,135,137,126,119,74,142],19:[108,169,127,186,130,158,143]};
-const MIDX=[0.90,0.92,1.15,1.19,1.07,0.89,0.90,0.92,1.25,1.03,0.91,0.87];
+// ================= office-average numbers (model refresh, Sep 29 2026) =================
+// Expected commission per appointment for an office-average rep in an average month, by start time x day (Sun..Sat).
+const VAL={10:[206,216,230,238,219,219,213],11:[199,208,217,240,223,217,217],13:[191,201,206,227,204,198,197],14:[184,193,202,224,208,202,199],15:[154,161,172,187,159,166,164],18:[122,117,129,139,123,125,126],19:[126,128,137,153,134,134,133]};
+const MIDX=[0.89,0.95,1.09,1.06,1.10,1.03,1.00,0.96,1.05,0.99,0.96,0.91];
 const MNAME=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const MAB=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const DAYN=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 const DAB=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 const DORDER=[1,2,3,4,5,6,0];
-const EDGE=1.13, WK=52/12, HRS_APPT=3.25, HRS_MGR=3; let PER_SALE=950;
+const WK=52/12, HRS_APPT=3.25, HRS_MGR=3, PERS_ADD=270; let PER_SALE=950;
 const HOURS=[10,11,13,14,15,18,19];
 const SLOTL={10:'10 AM',11:'11 AM',13:'1 PM',14:'2 PM',15:'3 PM',18:'6 PM',19:'7 PM'};
 const PRESETS={
@@ -400,7 +433,9 @@ const PRESETS={
   clear:{name:'Clear', s:{}, m:{}}};
 const SRC=[['personal','My personal / referral'],['callin','THD Call-in/Web'],['thdwt','THD Water Treatment'],['nhoin','NHO-In'],['nhoout','NHO-Out'],['thdother','THD Survey/Camille/Transfer'],['bottle','Bottle Drop'],['lowes',"Lowe's"],['wtref','WT Referral'],['other','Other']];
 const SRCN=Object.fromEntries(SRC);
-const AREAS={take:['Smyrna','Marietta','Mableton','Decatur','Austell','Powder Springs','Lithonia','Ellenwood','Snellville','Jonesboro'],ok:['Atlanta (intown)','Stone Mountain','Lawrenceville','Duluth','Stockbridge','Conyers','Douglasville'],far:['Dallas','Hampton','Covington','Loganville'],skip:['Alpharetta','Tucker','Riverdale','Woodstock','Fairburn','Acworth','Canton','Dacula','McDonough']};
+const CITIES=["ACWORTH","ALPHARETTA","ATHENS","ATLANTA","AUBURN","AUSTELL","BALL GROUND","BETHLEHEM","BROOKHAVEN","BUFORD","CANTON","CARROLLTON","COLLEGE PARK","COMMERCE","CONLEY","CONYERS","COVINGTON","CUMMING","DACULA","DALLAS","DECATUR","DOUGLASVILLE","DULUTH","DUNWOODY","EAST POINT","ELLENWOOD","FAIRBURN","FAYETTEVILLE","FLOWERY BRANCH","FOREST PARK","GAINESVILLE","GRAYSON","GRIFFIN","HAMPTON","HIRAM","HOSCHTON","JACKSON","JOHNS CREEK","JONESBORO","KENNESAW","LAWRENCEVILLE","LILBURN","LITHIA SPRINGS","LITHONIA","LOCUST GROVE","LOGANVILLE","MABLETON","MACON","MARIETTA","MCDONOUGH","MONROE","MORROW","NEWNAN","NORCROSS","OXFORD","PALMETTO","PEACHTREE CITY","PEACHTREE CORNERS","POWDER SPRINGS","REX","RIVERDALE","ROSWELL","SANDY SPRINGS","SMYRNA","SNELLVILLE","SOUTH FULTON","STOCKBRIDGE","STONE MOUNTAIN","STONECREST","SUGAR HILL","SUWANEE","TEMPLE","TUCKER","UNION CITY","VILLA RICA","WARNER ROBINS","WINDER","WINSTON","WOODSTOCK"];
+const FAR=new Set(["ATHENS","AUBURN","BALL GROUND","BETHLEHEM","CANTON","CARROLLTON","COMMERCE","COVINGTON","DALLAS","FLOWERY BRANCH","GAINESVILLE","GRIFFIN","HAMPTON","HOSCHTON","JACKSON","LOCUST GROVE","LOGANVILLE","MACON","MONROE","NEWNAN","OXFORD","TEMPLE","VILLA RICA","WARNER ROBINS","WINDER"]);
+const titleCase=t=>String(t).toLowerCase().replace(/\b[a-z]/g,c=>c.toUpperCase()).replace(/\bMc([a-z])/g,(m,c)=>'Mc'+c.toUpperCase());
 let AVOID=[];
 const RES=[['nodemo','No demo'],['demo','Demo'],['sold','Sold']];
 const RESN={nodemo:'Rescheduled / no demo', demo:'Demo, no sale', sold:'Sold'};
@@ -414,7 +449,7 @@ const dkey=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const mkey=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}`;
 const parseD=k=>{const [y,m,dd]=k.split('-').map(Number); return new Date(y,m-1,dd||1);};
 const tierOf=i=>i>=1.05?'push':i>=.95?'normal':'ease';
-const valTier=v=>v>=240?'take':v>=160?'ok':'skip';
+const valTier=v=>v>=205?'take':v>=165?'ok':'skip';
 function lsGet(k,f){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):f; }catch(e){ return f; } }
 function lsSet(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
 function el(tag, cls, text){ const e=document.createElement(tag); if(cls) e.className=cls; if(text!=null) e.textContent=text; return e; }
@@ -460,7 +495,7 @@ async function initStore(){
 function weekCalc(p, mi){ let runs=0,sum=0,eve=0,days=0,mgr=0;
   DORDER.forEach(d=>{ const hs=(p.week.s[d]||[]); const m=!!p.week.m[d]; hs.forEach(h=>{ runs++; sum+=VAL[h][d]; if(h>=18) eve++; }); if(hs.length||m) days++; if(m) mgr++; });
   const boost=(p.conf?1.05:1)*(p.set?1.02:1)*mi;
-  const low=sum*WK*boost + p.pers*300, high=sum*WK*boost*EDGE + p.pers*300;
+  const low=sum*WK*boost + p.pers*PERS_ADD, high=low;
   return {runs, perWeek:runs, monthRuns:runs*WK, low, high, days, hrs:runs*HRS_APPT+mgr*HRS_MGR, eve: runs? eve/runs : 0, avgLow: runs? sum/runs*boost : 0}; }
 
 // ================= TODAY =================
@@ -480,7 +515,7 @@ function renderToday(){
   $('td-title').textContent=DAYN[dow];
   $('td-kicker').textContent= hs.length? `Field day · ${hs.length} appointment${hs.length>1?'s':''}` : (mg? 'Manager day' : 'Day off');
   const sl=$('td-slots'); sl.innerHTML='';
-  hs.forEach(h=>{ const p=el('div','tpill'); p.appendChild(el('b',null,SLOTL[h])); const v=VAL[h][dow]*mi; p.appendChild(el('span',null,`${money(v)}–${money(v*EDGE)} a run`)); sl.appendChild(p); });
+  hs.forEach(h=>{ const p=el('div','tpill'); p.appendChild(el('b',null,SLOTL[h])); const v=VAL[h][dow]*mi; p.appendChild(el('span',null,`about ${money(v)} a run`)); sl.appendChild(p); });
   if(mg){ const p=el('div','tpill'); p.appendChild(el('b',null,'PM')); p.appendChild(el('span',null,'Manager work')); sl.appendChild(p); }
   if(!hs.length && !mg){ const p=el('div','tpill'); p.appendChild(el('b',null,'Off')); p.appendChild(el('span',null,'Recharge. Nothing booked.')); sl.appendChild(p); }
   const tm=new Date(now); tm.setDate(now.getDate()+1); const ths=(prefs.week.s[tm.getDay()]||[]).slice().sort((a,b)=>a-b);
@@ -489,7 +524,7 @@ function renderToday(){
   $('td-next').textContent=nx;
   // month
   const mk=mkey(now); const s=stats(monthData(mk).entries); const wc=weekCalc(prefs, mi);
-  const target=Math.max(1,Math.round(wc.monthRuns)), saleT=Math.max(1,Math.round(target*0.24));
+  const target=Math.max(1,Math.round(wc.monthRuns)), saleT=Math.max(1,Math.round(target*0.20));
   const dim=new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
   $('td-mname').textContent=MNAME[now.getMonth()]; $('td-day').textContent=`Day ${now.getDate()} of ${dim}`;
   const demoRate= s.runs? s.demos/s.runs : 0;
@@ -497,7 +532,7 @@ function renderToday(){
   const lg=$('ring-legend'); lg.innerHTML='';
   [['var(--ring-1)', `${s.runs}/${target}`, 'Appointments'], ['var(--ring-2)', s.runs? Math.round(demoRate*100)+'%':'–', 'Demo rate · goal 50%'], ['var(--ring-3)', `${s.sold}/${saleT}`, 'Sales']].forEach(([c,v,l])=>{ const r=el('div','lg'); const i=el('i'); i.style.background=c; r.appendChild(i); r.appendChild(el('span',null,l)); r.appendChild(el('b',null,v)); lg.appendChild(r); });
   $('td-comm').textContent=money(s.comm);
-  $('td-plan').textContent=`${kfmt(wc.low)}–${kfmt(wc.high)} + ${kfmt(prefs.ovr)}`;
+  $('td-plan').textContent=`${kfmt(wc.low)} + ${kfmt(prefs.ovr)}`;
   // checklist
   const items=[];
   if(dow===1) items.push(['m1','Weekly review','30 min: last week\'s appointments, demos, sales']);
@@ -522,11 +557,11 @@ function renderCheckCount(n){ const done=[...document.querySelectorAll('#td-chec
 function renderWeek(){
   const mi= prefs.month? MIDX[prefs.month-1] : 1; const wc=weekCalc(prefs, mi);
   $('wk-mlabel').textContent=(prefs.month? MNAME[prefs.month-1] + ` · ${mi>=1?'+':''}${Math.round((mi-1)*100)}%` : 'Average month') + ' · commission + overrides';
-  const tl=wc.low+prefs.ovr, th=wc.high+prefs.ovr;
-  $('wk-total').textContent= wc.runs? `${kfmt(tl)} – ${kfmt(th)}` : kfmt(prefs.ovr);
-  const L=Math.min(100,100*tl/15000), H=Math.min(100,100*th/15000); const bar=$('wk-bar'); bar.style.left=L+'%'; bar.style.width=Math.max(1.5,H-L)+'%';
+  const tl=wc.low+prefs.ovr;
+  $('wk-total').textContent= kfmt(tl);
+  const L=Math.min(100,100*tl/15000); const bar=$('wk-bar'); bar.style.left='0%'; bar.style.width=Math.max(1.5,L)+'%';
   $('wk-runs').textContent=Math.round(wc.monthRuns); $('wk-days').textContent=wc.days; $('wk-hrs').textContent=Math.round(wc.hrs); $('wk-eve').textContent= wc.runs? Math.round(wc.eve*100)+'%' : '–';
-  $('wk-status').textContent= !wc.runs? 'Tap slots below or pick a preset.' : th<7000? 'Below your $7k floor. Add a daytime slot.' : tl<7000? 'Hits $7k only if your edge holds. One more daytime slot makes it safe.' : tl<10000? (th>=10000? 'Clears $7k at the office rate and can reach $10k with your edge.' : 'Clears your $7k floor at the office rate.') : 'Clears $10k even at the office rate.';
+  $('wk-status').textContent= !wc.runs? 'Tap slots below or pick a preset.' : (tl<7000? 'Below your $7k floor at office rates. Add a daytime slot.' : tl<10000? 'Clears your $7k floor at office rates.' : 'Clears $10k at office rates.') + ` About ${money(wc.avgLow)} a run.`;
   // presets
   const pr=$('wk-presets'); pr.innerHTML=''; Object.entries(PRESETS).forEach(([k,p])=>pr.appendChild(btn('chip', p.name, prefs.preset===k, ()=>{ prefs.week=presetWeek(k); prefs.preset=k; savePrefs(); renderWeek(); renderToday(); toast(p.name+' loaded'); })));
   // grid
@@ -539,7 +574,7 @@ function renderWeek(){
   DORDER.forEach(d=>{ const sel=!!prefs.week.m[d]; const c=btn('cell mgr'+(sel?' sel':''), null, sel, ()=>{ if(prefs.week.m[d]) delete prefs.week.m[d]; else prefs.week.m[d]=1; prefs.preset=null; savePrefs(); renderWeek(); renderToday(); });
     c.setAttribute('aria-label', `${DAYN[d]} manager block${sel?', on':''}`); c.appendChild(el('small',null, sel?'On':'+')); g.appendChild(c); });
   g.appendChild(el('div'));
-  DORDER.forEach(d=>{ const hs=prefs.week.s[d]||[]; let s=0; hs.forEach(h=>s+=VAL[h][d]*mi); g.appendChild(el('div','daytot', hs.length? kfmt(s*WK*EDGE*(prefs.conf?1.05:1)*(prefs.set?1.02:1)).replace('.0k','k') : '–')); });
+  DORDER.forEach(d=>{ const hs=prefs.week.s[d]||[]; let s=0; hs.forEach(h=>s+=VAL[h][d]*mi); g.appendChild(el('div','daytot', hs.length? kfmt(s*WK*(prefs.conf?1.05:1)*(prefs.set?1.02:1)).replace('.0k','k') : '–')); });
   // months
   const ms=$('wk-months'); ms.innerHTML=''; ms.appendChild(btn('chip','Average',prefs.month===0,()=>{prefs.month=0; savePrefs(); renderWeek();}));
   MIDX.forEach((m,i)=>{ const t=tierOf(m); const b=btn('chip', null, prefs.month===i+1, ()=>{prefs.month=i+1; savePrefs(); renderWeek();}); const dot=el('span','dot'); dot.style.background= t==='push'?'var(--take)': t==='ease'?'var(--ok)':'var(--ink-3)'; b.appendChild(dot); b.appendChild(document.createTextNode(MAB[i])); ms.appendChild(b); });
@@ -549,37 +584,86 @@ function toggleSlot(d,h){ const arr=(prefs.week.s[d]||[]).slice(); const i=arr.i
 
 // ================= CHECK =================
 const ck=Object.assign({time:null, day:now.getDay(), src:null, book:'yesterday', area:'', setter:''}, lsGet('afc-check',{}));
+ck.area=(()=>{ const u=String(ck.area||'').toUpperCase().replace(/\s*\(.*\)\s*/,'').trim(); return CITIES.includes(u)? u : ''; })();
 const ICONS={take:'<svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>', ok:'<svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg>', skip:'<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>', none:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></svg>'};
+// ================= appointment odds model =================
+// Two ridge logistic regressions fitted on 13,223 Atlanta appointments (Jan 2025 - Sep 2026, every rep).
+// Rep skill is a separate term that is averaged out, so every number here is for an office-average rep.
+// Tested both directions (train 2025 -> predict 2026, and the reverse): sale rate by fifth landed within 1-2 points.
+// z = base + time + day + source + booked + area + month + setter;  chance = 1 / (1 + e^-z)
+const MODEL={"demo":{"b0":0.192,"h":{"9":0.072,"10":0.049,"11":0.237,"12":0.195,"13":-0.089,"14":-0.014,"15":-0.024,"16":-0.012,"18":-0.262,"19":-0.041,"20":-0.11},"d":{"0":-0.053,"1":0.038,"2":0.099,"3":0.052,"4":-0.02,"5":-0.065,"6":-0.051},"s":{"bottle":-0.063,"callin":0.19,"lowes":0.025,"nhoin":-0.043,"nhoout":-0.176,"other":0.168,"personal":0.44,"thdother":-0.403,"thdwt":-0.193,"wtref":0.056},"b":{"0":0.322,"1":-0.027,"2":-0.295},"m":{"1":-0.002,"2":0.044,"3":0.051,"4":0.066,"5":0.078,"6":-0.029,"7":-0.037,"8":-0.102,"9":-0.001,"10":-0.058,"11":-0.048,"12":0.037},"a":{"avoid":-0.054},"c":{"ACWORTH":0.029,"ALPHARETTA":-0.12,"ATHENS":-0.087,"ATLANTA":-0.109,"AUBURN":0.05,"AUSTELL":-0.007,"BETHLEHEM":-0.053,"BUFORD":0.02,"CANTON":-0.031,"CARROLLTON":-0.057,"COLLEGE PARK":0.047,"CONLEY":-0.079,"CONYERS":0.067,"COVINGTON":0.156,"CUMMING":0.104,"DACULA":-0.063,"DALLAS":0.168,"DECATUR":-0.082,"DOUGLASVILLE":0.037,"DULUTH":-0.015,"DUNWOODY":-0.089,"EAST POINT":0.041,"ELLENWOOD":0.056,"FAIRBURN":0.04,"FAYETTEVILLE":-0.045,"FLOWERY BRANCH":0.06,"FOREST PARK":-0.04,"GAINESVILLE":-0.045,"GRAYSON":0.083,"GRIFFIN":0.129,"HAMPTON":0.004,"HIRAM":0.026,"HOSCHTON":-0.029,"JACKSON":0.129,"JOHNS CREEK":-0.049,"JONESBORO":-0.141,"KENNESAW":0.006,"LAWRENCEVILLE":-0.1,"LILBURN":-0.061,"LITHIA SPRINGS":-0.039,"LITHONIA":0.024,"LOCUST GROVE":0.007,"LOGANVILLE":0.058,"MABLETON":-0.02,"MACON":-0.013,"MARIETTA":-0.077,"MCDONOUGH":0.074,"MONROE":-0.075,"MORROW":0.004,"NEWNAN":0.113,"NORCROSS":-0.073,"PALMETTO":-0.023,"PEACHTREE CITY":-0.042,"PEACHTREE CORNERS":-0.03,"POWDER SPRINGS":-0.01,"REX":-0.041,"RIVERDALE":0.035,"ROSWELL":0.01,"SANDY SPRINGS":-0.12,"SMYRNA":-0.028,"SNELLVILLE":-0.117,"SOUTH FULTON":0.004,"STOCKBRIDGE":-0.063,"STONE MOUNTAIN":0.124,"STONECREST":-0.023,"SUGAR HILL":-0.01,"SUWANEE":-0.198,"TEMPLE":0.021,"TUCKER":0.016,"UNION CITY":-0.054,"VILLA RICA":-0.037,"WARNER ROBINS":-0.043,"WINDER":0.036,"WOODSTOCK":-0.035}},"sold":{"b0":-0.355,"h":{"9":0.076,"10":0.198,"11":0.019,"12":-0.172,"13":0.133,"14":0.08,"15":-0.075,"16":0.111,"18":-0.16,"19":-0.236,"20":0.027},"d":{"0":-0.063,"1":-0.075,"2":-0.048,"3":0.11,"4":0.007,"5":0.055,"6":0.015},"s":{"bottle":-0.455,"callin":-0.06,"lowes":-0.31,"nhoin":-0.024,"nhoout":-0.002,"other":0.201,"personal":0.802,"thdother":-0.186,"thdwt":-0.264,"wtref":0.299},"b":{"0":0.465,"1":-0.217,"2":-0.248},"m":{"1":-0.171,"2":-0.114,"3":0.092,"4":0.044,"5":0.093,"6":0.064,"7":0.024,"8":0.025,"9":0.085,"10":0.037,"11":-0.019,"12":-0.162},"a":{"avoid":-0.345},"c":{"ACWORTH":-0.058,"ALPHARETTA":-0.073,"ATLANTA":-0.052,"AUBURN":0.045,"AUSTELL":0.031,"BALL GROUND":-0.032,"BROOKHAVEN":-0.025,"BUFORD":0.01,"CANTON":-0.086,"CARROLLTON":0.008,"COLLEGE PARK":0.015,"COMMERCE":-0.003,"CONYERS":0.048,"COVINGTON":0.22,"CUMMING":-0.051,"DACULA":-0.012,"DALLAS":0.072,"DECATUR":-0.092,"DOUGLASVILLE":0.146,"DULUTH":-0.064,"DUNWOODY":-0.032,"EAST POINT":0.001,"ELLENWOOD":0.121,"FAIRBURN":0.086,"FAYETTEVILLE":0.074,"FLOWERY BRANCH":0.04,"FOREST PARK":0.037,"GAINESVILLE":0.032,"GRAYSON":0,"GRIFFIN":-0.072,"HAMPTON":0.22,"HIRAM":0.043,"HOSCHTON":-0.024,"JACKSON":-0.005,"JOHNS CREEK":-0.007,"JONESBORO":0.155,"KENNESAW":-0.109,"LAWRENCEVILLE":-0.021,"LILBURN":-0.088,"LITHIA SPRINGS":0.067,"LITHONIA":0.02,"LOCUST GROVE":0.078,"LOGANVILLE":-0.006,"MABLETON":-0.014,"MACON":-0.068,"MARIETTA":-0.146,"MCDONOUGH":0.019,"MONROE":-0.021,"MORROW":0.025,"NEWNAN":-0.024,"NORCROSS":-0.033,"OXFORD":0,"PALMETTO":-0.008,"PEACHTREE CITY":-0.045,"POWDER SPRINGS":0.002,"REX":-0.006,"RIVERDALE":-0.034,"ROSWELL":-0.049,"SANDY SPRINGS":-0.044,"SMYRNA":-0.08,"SNELLVILLE":0.055,"SOUTH FULTON":-0.016,"STOCKBRIDGE":0.031,"STONE MOUNTAIN":-0.003,"SUGAR HILL":-0.031,"SUWANEE":-0.04,"TEMPLE":-0.001,"TUCKER":-0.109,"UNION CITY":0.073,"VILLA RICA":0.076,"WARNER ROBINS":0.028,"WINDER":0,"WINSTON":-0.019,"WOODSTOCK":-0.111}}};
+// Office-weighted average of each factor, used when a factor is unknown and to size each factor's effect.
+const GMEAN={demo:{h:-0.047,d:0.003,s:-0.134,b:-0.039,m:-0.002,c:-0.018}, sold:{h:-0.028,d:0.007,s:-0.093,b:-0.187,m:0.008,c:0.002}};
+// Commission per sale after declines and cancels (office, 2026). Daytime sales fund more often in both years; Lowe's deals pay less.
+const CPS=1060, FUND=0.69, PRICE={avg:10565, lo:8495, hi:12495, lowes:9281}, OFFICE={demo:0.48, sale:0.16, run:174};
+const tfac=h=> h<=14?1.07 : h<=17?1 : 0.89;
+const BKK={today:'0', yesterday:'1', older:'2'};
+const sig=z=>1/(1+Math.exp(-z));
+const pct=v=>Math.round(v*100)+'%';
+const normCity=a=>{ if(!a) return ''; const u=String(a).toUpperCase().replace(/\s*\(.*\)\s*/,'').trim(); return CITIES.includes(u)? u : ''; };
+function feats(c, month){ return {h:String(c.time), d:String(c.day), s:c.src, b:BKK[c.book]||'1', c:normCity(c.area), a:!!(c.setter && AVOID.includes(c.setter)), m:month? String(month) : ''}; }
+function parts(M, G, f){ const o={base:M.b0}; ['h','d','s','b','c','m'].forEach(g=>{ const t=M[g]; o[g]= (f[g] && t[f[g]]!=null)? t[f[g]] : G[g]; }); o.a= f.a? M.a.avoid : 0; return o; }
+const zsum=o=>Object.values(o).reduce((a,v)=>a+v,0);
+function score(c, month){
+  const f=feats(c, month); const pd=parts(MODEL.demo, GMEAN.demo, f), ps=parts(MODEL.sold, GMEAN.sold, f);
+  const tf=tfac(c.time), lf=c.src==='lowes'?0.82:1; const d=sig(zsum(pd)), sd=sig(zsum(ps)), comm=CPS*tf*lf;
+  return {f, pd, ps, d, sd, s:d*sd, tf, lf, comm, exp:d*sd*comm};
+}
+// Dollar effect of each factor versus an average appointment (same everything else).
+function impacts(r){ return ['h','d','s','b','c','a','m'].map(g=>{ const pd=Object.assign({},r.pd), ps=Object.assign({},r.ps);
+  if(g==='a'){ pd.a=0; ps.a=0; } else { pd[g]=GMEAN.demo[g]; ps[g]=GMEAN.sold[g]; }
+  const comm= g==='h'? CPS*r.lf : g==='s'? CPS*r.tf : r.comm; return [g, r.exp - sig(zsum(pd))*sig(zsum(ps))*comm]; }); }
+const FL={h:f=>`${SLOTL[f.h]} start`, d:f=>DAYN[f.d], s:f=>SRCN[f.s], b:f=>({'0':'Booked today','1':'Booked the day before','2':'Booked 2+ days ahead'})[f.b], c:f=>titleCase(f.c), a:()=>'Avoid-list setter', m:f=>MNAME[f.m-1]+' season'};
 function verdict(c){
-  if(c.src==='personal') return {cls:'take', word:'Take it', sub:'Your own lead beats every rule.', why:[['y','Personal and referral leads pay $450–670 a run in daytime']]};
-  if(c.time==null||!c.src) return {cls:'none', word:'Pick', sub:'Tap a start time and lead source.', why:[]};
-  const take=[], skip=[], note=[]; const h=c.time, am=h<=12, day=h<=14;
-  if([10,11,13].includes(h)) take.push(`${SLOTL[h]} start`); else if(h===14) note.push('2 PM start is OK'); else skip.push(`${SLOTL[h]} start: after 2 PM earns about half of mornings`);
-  const s=c.src;
-  if(['callin','thdwt','nhoin','nhoout'].includes(s)) take.push(SRCN[s]);
-  else if(s==='thdother'){ if(am) take.push('Home Depot lead in the morning'); else if(day) note.push('THD Survey/Camille/Transfer is OK in daytime'); else skip.push('THD Survey/Camille/Transfer after 2 PM'); }
-  else if(s==='bottle'){ if(am) note.push('Bottle Drop is OK in the morning'); else skip.push('Bottle Drop after noon'); }
-  else if(s==='lowes'){ if(am) note.push("Lowe's is OK in the morning"); else skip.push("Lowe's after noon pays $52–69 a run"); }
-  else if(s==='wtref') skip.push('WT Referral pays about $102 a run');
-  else note.push('Other sources: judge by time and area');
-  if(c.book==='today') take.push('Booked today: sells about twice as often'); else if(c.book==='older') skip.push('Booked 2+ days ago sells less');
-  const a=c.area; if(a){ if(AREAS.take.includes(a)) take.push(a+' is a Take area'); else if(AREAS.skip.includes(a)) skip.push(a+' pays very little'); else if(AREAS.far.includes(a)) note.push(a+' is far: only with a nearby second appointment'); else note.push(a+' is an OK area'); }
-  if(c.setter && AVOID.includes(c.setter)) skip.push(c.setter+' is on the avoid list');
-  if(c.day===0) note.push('Sunday is your day off'); else if(!(prefs.week.s[c.day]||[]).length) note.push(DAYN[c.day]+' isn\'t in your week');
-  const v=VAL[h][c.day]*MIDX[now.getMonth()]; const est=`This slot: ${money(v)}–${money(v*EDGE)} a run this month.`;
-  const why=[...skip.map(x=>['n',x]), ...take.map(x=>['y',x]), ...note.map(x=>['o',x])];
-  if(skip.length) return {cls:'skip', word:'Skip it', sub:est, why};
-  if(take.length>=2) return {cls:'take', word:'Take it', sub:est, why};
-  return {cls:'ok', word:'OK', sub:est+' Take it if nothing better is open.', why};
+  if(c.time==null||!c.src) return {cls:'none', word:'Pick', sub:'Tap a start time and lead source.', why:[], r:null};
+  const r=score(c, now.getMonth()+1), rn=score(c, 0);
+  const why=impacts(r).filter(([g,v])=>Math.abs(v)>=5 && !(g==='c'&&!r.f.c) && !(g==='a'&&!r.f.a)).sort((a,b)=>Math.abs(b[1])-Math.abs(a[1])).slice(0,4)
+    .map(([g,v])=>[v>0?'y':'n', FL[g](r.f), (v>0?'+':'−')+money(Math.abs(v))]);
+  if(r.f.c && FAR.has(r.f.c)) why.push(['o', `${titleCase(r.f.c)} is a long drive from Buckhead. Only with a nearby second appointment.`, '']);
+  if(c.day===0) why.push(['o','Sunday is your day off','']); else if(!(prefs.week.s[c.day]||[]).length) why.push(['o', DAYN[c.day]+' isn\'t in your week','']);
+  const cls= c.src==='personal' || rn.exp>=200 ? 'take' : rn.exp>=155 ? 'ok' : 'skip';
+  const sub= cls==='take'? (c.src==='personal'? 'Your own lead. Always take it.' : 'Better than most appointments the office runs.') : cls==='ok'? 'About average. Take it if nothing better is open.' : 'Below average. Your time is worth more.';
+  return {cls, word: cls==='take'?'Take it': cls==='ok'?'OK':'Skip it', sub, why, r};
+}
+function renderMath(r){
+  const b=$('how-bd'); b.innerHTML=''; const L={base:'start',h:'time',d:'day',s:'source',b:'booked',c:'area',m:'month',a:'setter'};
+  const fmtz=o=>{ const e=Object.entries(o).filter(([k,v])=>k==='base'||Math.abs(v)>=0.005); return e.map(([k,v],i)=>(i? (v<0?' − ':' + ') : (v<0?'−':''))+Math.abs(v).toFixed(2)+' '+L[k]).join('')+' = '+zsum(o).toFixed(2); };
+  const add=(t,cls,txt)=>{ const n=el(t,cls,txt); b.appendChild(n); return n; };
+  add('p',null,'Each factor adds or subtracts points (z). The chance is 1 ÷ (1 + e^−z). Numbers below are live for the appointment above.');
+  add('h4',null,'1. Home and a demo');
+  add('div','eq',`z = ${fmtz(r.pd)}\nchance = 1 ÷ (1 + e^−(${zsum(r.pd).toFixed(2)})) = ${pct(r.d)}`);
+  add('h4',null,'2. Sale, once you demo');
+  add('div','eq',`z = ${fmtz(r.ps)}\nchance = 1 ÷ (1 + e^−(${zsum(r.ps).toFixed(2)})) = ${pct(r.sd)}`);
+  add('h4',null,'3. Sale chance');
+  add('div','eq',`${pct(r.d)} × ${pct(r.sd)} = ${(r.s*100).toFixed(1)}%`);
+  add('h4',null,'4. Expected commission');
+  add('div','eq',`$1,060 per sale × ${r.tf.toFixed(2)} time${r.lf<1?' × 0.82 Lowe\'s':''} = ${money(r.comm)} if sold\n${(r.s*100).toFixed(1)}% × ${money(r.comm)} = ${money(r.exp)}`);
+  add('h4',null,'Where the numbers come from');
+  add('p',null,'13,223 Atlanta appointments, January 2025 to September 2026, every rep. Each rep\'s skill is its own term and is averaged out, so these are office-average odds. None of your personal results are in them.');
+  add('p',null,'Tested on data it never saw. Built from 2025 alone, it predicted 2026: the appointments it ranked in the top fifth sold 24.6% of the time (it said 24.1%) and the bottom fifth sold 10.3% (it said 10.9%). Built from 2026, it predicted 2025 just as closely.');
+  add('p',null,'Sale price and commission per sale didn\'t depend on the appointment, except time of day (daytime sales fund more often in both years) and Lowe\'s (lower-priced deals). So those use office averages: $10.6k written price and $1,060 commission per sale after declines and cancels. About 69% of sales fund.');
+  add('p','faint','These are odds, not promises. Even a strong appointment usually doesn\'t sell. The payoff comes from stacking better odds every week.');
 }
 function renderCheck(){
   const tg=$('c-time'); tg.innerHTML=''; HOURS.forEach(h=>tg.appendChild(btn('chip', SLOTL[h], ck.time===h, ()=>{ck.time=h; saveCk();})));
   const sg=$('c-src'); sg.innerHTML=''; SRC.forEach(([k,l])=>sg.appendChild(btn('chip', l, ck.src===k, ()=>{ck.src=k; saveCk();})));
-  const bg=$('c-book'); bg.innerHTML=''; [['today','Today'],['yesterday','Yesterday'],['older','2+ days']].forEach(([k,l])=>bg.appendChild(btn(null,l,ck.book===k,()=>{ck.book=k; saveCk();})));
+  const bg=$('c-book'); bg.innerHTML=''; [['today','Today'],['yesterday','Day before'],['older','2+ days']].forEach(([k,l])=>bg.appendChild(btn(null,l,ck.book===k,()=>{ck.book=k; saveCk();})));
   const dg=$('c-day'); dg.innerHTML=''; DORDER.forEach(d=>dg.appendChild(btn(null, DAB[d].slice(0,2), ck.day===d, ()=>{ck.day=d; saveCk();})));
   $('c-area').value=ck.area; $('c-setter').value=ck.setter;
   const v=verdict(ck); const box=$('verdict'); box.className='verdict '+v.cls; $('v-ico').innerHTML=ICONS[v.cls]||ICONS.none; $('v-word').textContent=v.word; $('v-sub').textContent=v.sub;
-  const ul=$('v-why'); ul.innerHTML=''; v.why.forEach(([k,t])=>{ const li=el('li','why-'+k); li.appendChild(el('i',null,k==='y'?'✓':k==='n'?'✕':'·')); li.appendChild(el('span',null,t)); ul.appendChild(li); });
+  const st=$('v-stats'); st.innerHTML=''; st.hidden=!v.r;
+  if(v.r){ [`Demo ${pct(v.r.d)}`, `Sale ${pct(v.r.s)}`, `≈ ${money(v.r.exp)}`].forEach(t=>st.appendChild(el('span',null,t))); }
+  const ul=$('v-why'); ul.innerHTML=''; v.why.forEach(([k,t,amt])=>{ const li=el('li','why-'+k); li.appendChild(el('i',null,k==='y'?'✓':k==='n'?'✕':'·')); const sp=el('span','t'); sp.appendChild(el('span',null,t)); if(amt) sp.appendChild(el('span','why-amt',amt)); li.appendChild(sp); ul.appendChild(li); });
+  const oc=$('odds-card'); oc.hidden=!v.r;
+  if(v.r){ const r=v.r, lw=ck.src==='lowes';
+    $('o-month').textContent=MNAME[now.getMonth()];
+    $('o-demo').textContent=pct(r.d); $('o-demo-bar').style.width=(r.d*100).toFixed(1)+'%'; $('o-demo-sub').textContent=`They're home and you demo. Office ${pct(OFFICE.demo)}.`;
+    $('o-sale').textContent=pct(r.s); $('o-sale-bar').style.width=(r.s*100).toFixed(1)+'%'; $('o-sale-sub').textContent=`${pct(r.sd)} once you demo. Office ${pct(OFFICE.sale)}.`;
+    $('o-price').textContent='$'+((lw?PRICE.lowes:PRICE.avg)/1000).toFixed(1)+'k'; $('o-price-sub').textContent= lw? 'Lowe\'s deals run lower.' : `Most sell for $${(PRICE.lo/1000).toFixed(1)}k–$${(PRICE.hi/1000).toFixed(1)}k.`;
+    $('o-comm').textContent=money(r.comm); $('o-comm-sub').textContent=`If it sells, after declines and cancels. ${Math.round(FUND*100)}% of sales fund.`;
+    $('o-exp').textContent=money(r.exp); $('o-exp-sub').textContent=`${pct(r.s)} × ${money(r.comm)} · office average ${money(OFFICE.run)}`;
+    renderMath(r); }
+  else { $('how-bd').innerHTML=''; $('how-bd').appendChild(el('p','faint','Pick a start time and lead source to see the math.')); }
 }
 function saveCk(){ lsSet('afc-check', ck); renderCheck(); }
 
@@ -630,14 +714,14 @@ function shiftMonth(n){ const d=parseD(viewMonth+'-01'); d.setMonth(d.getMonth()
 // ================= RULES =================
 function renderRules(){
   const R=[
-    ['Time','#0a7f8c','<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',[['take','Take','10 AM, 11 AM, 1 PM. $234–258 a run, held in 2025 and 2026.'],['ok','OK','2 PM. $171–211.'],['skip','Skip','3 PM and 6–8 PM. $112–165. Sundays off by choice.']]],
-    ['Lead source','#4e7fe0','<path d="M4 7h16M4 12h16M4 17h10"/>',[['take','Take','Your personal/referral leads, THD Call-in/Web, THD Water Treatment, NHO-In, NHO-Out, any Home Depot lead in the morning.'],['ok','OK','THD Survey, Camille, Transfer in daytime. Bottle Drop and Lowe\'s in the morning.'],['skip','Skip','Lowe\'s and Bottle Drop after noon. WT Referral.']]],
-    ['Area from Buckhead','#16a35a','<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',[['take','Take',AREAS.take.join(', ')+'.'],['ok','OK',AREAS.ok.join(', ')+'. Intown Atlanta daytime only.'],['ok','Far',AREAS.far.join(', ')+'. Only with a nearby second appointment.'],['skip','Skip',AREAS.skip.join(', ')+'.']]],
-    ['When it was booked','#b07a00','<rect x="3" y="4" width="18" height="17" rx="3"/><path d="M3 10h18M8 2v4M16 2v4"/>',[['take','Take','Booked today. Sold about twice as often (32–37%).'],['ok','OK','Booked yesterday. The normal case.'],['skip','Skip','Booked 2+ days ago. 11–14% sold.'],['plain','Ignore','Re-set vs first visit, and how old the lead is.']]],
-    ['Setters','#c53a3a','<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M17 11h5"/>',[['skip','Avoid', AVOID.length? AVOID.join(', ')+'. About 20% fewer sales in both years.' : 'Your five avoid-list setters (add them in Settings). About 20% fewer sales in both years.'],['plain','Others','No dependable top list.']]],
+    ['Time','#0a7f8c','<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',[['take','Take','10 AM to 2 PM starts. About $200–220 a run at office rates, and daytime sales fund more often.'],['ok','OK','3 PM. About $165.'],['skip','Skip','6–7 PM. About $125–140. Sundays off by choice.']]],
+    ['Lead source','#4e7fe0','<path d="M4 7h16M4 12h16M4 17h10"/>',[['take','Strong','Your personal and referral leads (about $490 a run), WT Referral, THD Call-in/Web, and other programs like BOGO and Anniversary ($210–250).'],['ok','Average','NHO-In and NHO-Out ($180–195).'],['skip','Weak','Bottle Drop, THD Survey/Camille/Transfer, THD Water Treatment, Lowe\'s ($135–150). Only in a strong time slot. Check weighs this for you.']]],
+    ['Area','#16a35a','<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',[['plain','Odds','Area barely moves the odds, a few percent either way. Check includes it.'],['ok','Far',[...FAR].map(titleCase).join(', ')+'. Long drives from Buckhead: only with a nearby second appointment.']]],
+    ['When it was booked','#b07a00','<rect x="3" y="4" width="18" height="17" rx="3"/><path d="M3 10h18M8 2v4M16 2v4"/>',[['take','Take','Booked today. About $330 a run: sells about twice as often.'],['ok','OK','Booked the day before. The normal case, about $170.'],['skip','Weak','Booked 2+ days ahead. About $135.']]],
+    ['Setters','#c53a3a','<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M17 11h5"/>',[['skip','Avoid', AVOID.length? AVOID.join(', ')+'. 20–30% fewer sales per appointment in both years.' : 'Your avoid-list setters (add them in Settings). 20–30% fewer sales per appointment in both years.'],['plain','Others','No dependable top list.']]],
     ['Months','#7a5cd6','<path d="M3 17l5-5 4 4 8-8"/><path d="M14 8h6v6"/>',null],
     ['Field-day routine','#0a7f8c','<path d="M4 6h16M4 12h10M4 18h7"/>',[['plain','Night','Pick tomorrow\'s appointments in Check. Second one within ~20 min of the first.'],['plain','8:30','Confirm the morning appointment and every decision-maker.'],['plain','Lunch','Confirm the afternoon one. Take same-day daytime bookings.'],['plain','~4:30','Done. Log results. Text installs for referrals.']]],
-    ['Monthly targets','#16a35a','<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',[['plain','26–30','Appointments, all 10 AM–2 PM'],['plain','50%+','Become full demos'],['plain','7+','Sales written'],['plain','2','Personal or referral leads'],['plain','0','Evening, Sunday or avoid-list appointments']]]];
+    ['Monthly targets','#16a35a','<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',[['plain','26–30','Appointments, all 10 AM–2 PM'],['plain','50%+','Become full demos'],['plain','6+','Sales written (office pace for these slots)'],['plain','2','Personal or referral leads'],['plain','0','Evening, Sunday or avoid-list appointments']]]];
   const g=$('rules'); g.innerHTML='';
   R.forEach(([title,color,icon,lanes],i)=>{ const d=document.createElement('details'); if(i===0) d.open=true; const s=document.createElement('summary');
     const ic=el('span','ic'); ic.style.background=color; ic.innerHTML=`<svg viewBox="0 0 24 24">${icon}</svg>`; s.appendChild(ic); s.appendChild(el('b',null,title)); s.appendChild(el('span','chev')); d.appendChild(s);
@@ -654,7 +738,7 @@ function showTab(t){ TABS.forEach(x=>{ $('s-'+x).hidden = x!==t; $('t-'+x).setAt
 TABS.forEach(t=>$('t-'+t).addEventListener('click',()=>showTab(t)));
 function fillSelects(){
   const area=$('c-area'); const o0=el('option',null,'Not sure / other'); o0.value=''; area.appendChild(o0);
-  [['take','Take areas'],['ok','OK areas'],['far','Far (pair only)'],['skip','Skip areas']].forEach(([k,l])=>{ const g=document.createElement('optgroup'); g.label=l; AREAS[k].forEach(n=>{ const o=el('option',null,n); o.value=n; g.appendChild(o); }); area.appendChild(g); });
+  CITIES.forEach(n=>{ const o=el('option',null,titleCase(n)+(FAR.has(n)?' (far)':'')); o.value=n; area.appendChild(o); });
   fillSetters(); const st=$('c-setter');
   const ls=$('l-src'); SRC.forEach(([v,l])=>{ const o=el('option',null,l); o.value=v; ls.appendChild(o); }); ls.value='nhoout';
   area.addEventListener('change',()=>{ck.area=area.value; saveCk();}); st.addEventListener('change',()=>{ck.setter=st.value; saveCk();});

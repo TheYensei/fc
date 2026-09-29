@@ -1,6 +1,6 @@
 // Field Card offline cache. Bump VERSION when you upload a new index.html.
-const VERSION = 'field-card-v1';
-const CORE = ['./', './index.html', './manifest.webmanifest', './apple-touch-icon.png', './icon-192.png', './icon-512.png', './favicon.png'];
+const VERSION = 'field-card-v2';
+const CORE = ['./', './index.html', './manifest.webmanifest', './app-icon-180.png', './app-icon-192.png', './app-icon-512.png', './app-icon-maskable-512.png', './app-icon-64.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
