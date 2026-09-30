@@ -1,5 +1,5 @@
 // Field Card offline cache. Bump VERSION when you upload a new index.html.
-const VERSION = 'field-card-v3';
+const VERSION = 'field-card-v4';
 const CORE = ['./', './index.html', './manifest.webmanifest', './app-icon-180.png', './app-icon-192.png', './app-icon-512.png', './app-icon-maskable-512.png', './app-icon-64.png'];
 
 self.addEventListener('install', e => {
